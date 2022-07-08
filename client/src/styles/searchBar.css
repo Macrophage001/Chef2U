@@ -1,0 +1,41 @@
+.search-bar {
+    margin-top: 18rem;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-bar input[type="text"] {
+    border: none;
+    box-shadow: 0 2px 4px #b4b4b4;
+    padding: 1rem;
+    width: 18rem;
+    margin-top: 1rem;
+}
+
+.search-bar input[type="text"]::placeholder {
+    color: #646464;
+    font-family: 'Cascadia Code', sans-serif;
+}
+
+.search-icon {
+    position: relative;
+    left: 0.125rem;
+    height: 2.25rem;
+}
+
+.on-search-complete {
+    animation: move-search-bar-up 0.5s ease-in-out forwards;
+}
+
+@keyframes move-search-bar-up {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(-12rem);
+    }
+}

@@ -1,0 +1,108 @@
+@import url('./colors.css');
+
+.log-in-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    position: relative;
+}
+
+.log-in-screen-header {
+    background-image: url("../../public/images/heroBanner.jpg");
+    background-size: cover;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+
+    height: 20vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.log-in-screen-body-authentication {
+    border: 1px solid var(--accent-color);
+    border-radius: 5px;
+    padding: 0 4rem;
+    padding-bottom: 2rem;
+
+    margin-top: 4rem;
+}
+
+.log-in-screen-body-authentication h1 {
+    color: black;
+    text-align: center;
+    font-weight: lighter;
+
+    margin-top: 2rem;
+}
+
+.log-in-screen-body-authentication form {
+    padding: 1rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.log-in-screen-body-authentication form input[type="text"],
+.log-in-screen-body-authentication form input[type="password"] {
+    border: none;
+    box-shadow: 0 2px 4px #b4b4b4;
+    padding: 1rem;
+    width: 14rem;
+    margin-top: 1rem;
+}
+
+.log-in-screen-body-authentication form input[type="text"]::placeholder,
+.log-in-screen-body-authentication form input[type="password"]::placeholder {
+    color: #646464;
+    font-family: 'Cascadia Code', sans-serif;
+}
+
+.log-in-screen-body-authentication .form-customer-type {
+    padding: 1rem;
+}
+
+.form-customer-type {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-customer-type .type {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 1rem;
+}
+
+.form-customer-type input[type="radio"] {
+    margin-top: 0.75rem;
+}
+
+.form-customer-type img {
+    width: 4rem;
+}
+
+form h2 {
+    color: var(--accent-color);
+    font-family: 'Cascadia Code', sans-serif;
+    font-weight: lighter;
+
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.authentication-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}

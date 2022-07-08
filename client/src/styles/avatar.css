@@ -1,0 +1,138 @@
+.avatar {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+
+    z-index: 1;
+}
+
+.avatar-preview-info {
+    background-color: #FF6B00;
+    padding: 0.5rem;
+    width: 9rem;
+
+    left: -125px;
+
+    z-index: -1;
+
+    transform-origin: right;
+    transform: scaleX(0);
+}
+
+.avatar-preview-info p {
+    font-family: 'Cascadia Code', sans-serif;
+    font-size: 1rem;
+    color: #fff;
+
+    text-align: center;
+}
+
+.avatar-preview-info p::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: #fff;
+}
+
+.avatar-icon img {
+    height: 3rem;
+    width: 3rem;
+
+    border: 2.5px solid #fff;
+    border-radius: 50%;
+}
+
+.avatar-menu {
+    display: flex;
+    flex-direction: column;
+
+    position: relative;
+    top: 0.5rem;
+    left: 0.5rem;
+}
+
+@keyframes avatar-menu-slide-out {
+    0% {
+        transform: scaleX(0);
+    }
+
+    100% {
+        transform: scaleX(100%);
+    }
+}
+
+@keyframes avatar-menu-slide-in {
+    0% {
+        transform: scaleX(100%);
+    }
+
+    100% {
+        transform: scaleX(0);
+    }
+}
+
+.avatar-dropdown-menu {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 4px #b4b4b4;
+
+    width: 100%;
+    background-color: #fff;
+
+    transform: scaleY(0);
+    transform-origin: top;
+}
+
+.avatar:hover .avatar-preview-info {
+    animation: avatar-menu-slide-out 300ms ease-in-out forwards;
+}
+
+.avatar:hover .avatar-dropdown-menu {
+    animation: avatar-dropdown-menu-drop 150ms 300ms ease-in-out forwards;
+}
+
+@keyframes avatar-dropdown-menu-drop {
+    0% {
+        transform: scaleY(0);
+    }
+
+    100% {
+        transform: scaleY(100%);
+    }
+}
+
+@keyframes avatar-dropdown-menu-rise {
+    0% {
+        transform: scaleY(100%);
+    }
+
+    100% {
+        transform: scaleY(0);
+    }
+}
+
+.avatar-dropdown-menu a:hover {
+    transition: 300ms ease forwards;
+    color: #FF6B00;
+}
+
+.avatar-dropdown-menu a {
+    text-decoration: none;
+
+    color: #000;
+    font-family: 'Cascadia Code', sans-serif;
+    font-size: 1rem;
+    font-weight: lighter;
+
+    padding: 0.25rem;
+}

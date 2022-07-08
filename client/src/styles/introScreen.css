@@ -1,0 +1,116 @@
+@import url('./colors.css');
+
+.intro-screen {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../../public/images/heroBanner.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    position: absolute;
+    z-index: 10;
+}
+
+.intro-screen h1 {
+    color: white;
+    font-weight: lighter;
+    text-shadow: 2px 2px 4px black;
+
+    animation: fade-in 1s ease-in-out;
+}
+
+.intro-screen h1::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: var(--accent-color);
+    margin-top: 10px;
+
+    transform: scaleX(0);
+
+    animation: h1-after-scale-x-up 300ms ease-in-out forwards;
+    animation-delay: 1.5s;
+}
+
+.intro-screen h2 {
+    color: white;
+    font-weight: lighter;
+    text-shadow: 2px 2px 4px black;
+    opacity: 0;
+
+    padding: 1rem;
+
+    animation: fade-in 1s ease-in-out forwards;
+    animation-delay: 2s;
+}
+
+.intro-screen h2 span {
+    color: var(--accent-color);
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes h1-after-scale-x-up {
+    0% {
+        transform: scaleX(0);
+    }
+
+    100% {
+        transform: scaleX(1);
+    }
+}
+
+.intro-screen img {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    color: white;
+
+    animation: fade-in 300ms ease-in-out forwards, img-bounce 1s ease-in-out infinite;
+
+    bottom: 0;
+}
+
+@keyframes img-bounce {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.unlocked {
+    animation: scroll-up 300ms ease-in-out forwards;
+}
+
+@keyframes scroll-up {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(-100%);
+        display: none;
+    }
+}

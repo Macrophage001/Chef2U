@@ -1,0 +1,14 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+    background-color: #fff;
+
+    box-shadow: 0 0 10px #969696;
+
+    position: relative;
+}
+
+.card h2 {
+    font-weight: lighter;
+}

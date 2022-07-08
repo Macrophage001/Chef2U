@@ -1,0 +1,43 @@
+@import url('./avatar.css');
+@import url('./searchBar.css');
+@import url('./chefPreviewCard.css');
+@import url('./colors.css');
+
+.main-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    position: relative;
+}
+
+.main-screen-header {
+    background-image: url("../../public/images/heroBanner.jpg");
+    background-size: cover;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+
+    height: 20vh;
+    width: 100vw;
+
+    position: relative;
+}
+
+.main-screen-body {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.exit-btn {
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-size: 1.5rem;
+    font-weight: lighter;
+}
+
+.exit-btn:hover {
+    color: var(--accent-color);
+}

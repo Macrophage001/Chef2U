@@ -1,0 +1,21 @@
+@import url(./colors.css);
+
+.orange-button {
+    cursor: pointer;
+
+    background-color: var(--accent-color);
+    border: none;
+    padding: 1rem;
+    box-shadow: 0 2px 4px #646464;
+}
+
+.orange-button>* {
+    color: white;
+
+    font-family: 'Cascadia Code', sans-serif;
+    font-weight: lighter;
+}
+
+.orange-button:hover {
+    background-color: #ff7817;
+}

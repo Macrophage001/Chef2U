@@ -1,0 +1,38 @@
+.nav-links {
+    width: 100%;
+}
+
+.nav-links ul {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0 20px;
+    height: 60px;
+}
+
+.nav-links ul li {
+    list-style: none;
+    margin: 0 10px;
+}
+
+.nav-links ul li * {
+    text-decoration: none;
+    font-family: 'Cascadia Code', sans-serif;
+    font-weight: lighter;
+    color: #646464;
+}
+
+.nav-links ul li *::after {
+    content: '';
+    display: block;
+    height: 2px;
+    position: relative;
+    background-color: #FF6B00;
+
+    transform: scaleX(0);
+}
+
+.nav-links ul li:hover *::after {
+    transition: 300ms ease-in-out;
+    transform: scaleX(100%);
+}
