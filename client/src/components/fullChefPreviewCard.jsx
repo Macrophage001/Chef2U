@@ -68,12 +68,16 @@ const FullChefPreview = ({ chef, overallRating, handleClickOnCard }) => {
         return stars;
     }
 
-
+    const handleClick = (e) => {
+        if (e.target === e.currentTarget) {
+            handleClickOnCard(chef);
+        }
+    }
 
     return (
-        <div className="full-chef-preview">
+        <div className="full-chef-preview" onClick={handleClick}>
             <Card className="full-chef-preview-card">
-                <button className='exit-btn' onClick={handleClickOnCard}>&times;</button>
+                <button className='exit-btn' onClick={() => handleClickOnCard(chef)}>&times;</button>
 
                 <div className='full-chef-image'>
                     <img src={chef.avatar ? `data:image/${chef.avatar.contentType};base64,${chef.avatar.data.toString('base64')}` : "\\images\\chef.png"} alt="avatar" />
