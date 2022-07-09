@@ -12,16 +12,17 @@ const updateCart = (req, res) => {
 
 const addToCart = (req, res) => {
     tryCatch(async () => {
-        const { user, item } = req.body;
+        const { item, user, chef } = req.body;
         const cartItem = {
             ...item,
-            chefId: user._id,
-            count: 1
+            chefId: chef._id,
+            chefName: `${chef.firstName} ${chef.lastName}`,
+            count: 1,
         }
 
         const updatedUser = await User.findById(user);
         const { cart } = updatedUser;
-        if (cart.find(item => item.name === cartItem.name)) {
+        if (cart.find(item => item.name === cartItem.name && item.chefId === cartItem.chefId)) {
             const index = cart.findIndex(item => item.name === cartItem.name);
             cart[index].count++;
         } else {

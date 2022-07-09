@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext, createContext } from 'react'
 import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
@@ -10,32 +10,39 @@ import '../../styles/checkoutScreen.css';
 import '../../styles/button.css';
 
 import { tryCatch, ArrayExtension, currencyFormat } from '../../helper/util';
+
 import Button from '../button';
 import Card from '../card';
 
-const CheckoutDisplayOrders = ({ user, cart, setUser }) => {
+const UserContext = createContext({});
+
+const CheckoutDisplayOrders = ({ setUser }) => {
+    const { user, cart } = useContext(UserContext);
+
     const updateItemCount = (item, add) => {
         tryCatch(async () => {
             let newCount = item.count + add;
             let newCart = new ArrayExtension(...cart);
             if (newCount < 1) {
+                console.log("Removing Item...");
                 newCount = 0;
                 const index = newCart.indexOf(item);
                 newCart = newCart.remove(index);
+                console.log("Index: " + index);
+                console.log("New Cart: ", newCart);
             } else {
+                console.log("Updating Existing Item...");
                 newCart = new ArrayExtension(...cart);
                 newCart.forEach(i => {
-                    if (i.name === item.name) {
+                    if (i.name === item.name && i.chefId === item.chefId) {
                         i.count = newCount;
                     }
                 });
             }
-            const response = await axios.put('/api/cart/update', {
-                userId: user._id,
-                newCart,
-            });
-            console.log(response.data);
-            setUser(response.data);
+            const updatedUser = (await axios.put('/api/cart/update', { userId: user._id, newCart })).data;
+            setUser(updatedUser);
+            console.log("Cart: ", cart.length);
+            console.log("Updated User Cart: ", updatedUser.cart.length);
         })();
     }
 
@@ -44,11 +51,12 @@ const CheckoutDisplayOrders = ({ user, cart, setUser }) => {
             {user.cart && user.cart.map((item, index) => {
                 return (
                     <Card className='order' key={index}>
+                        <h1>Current Cart Length: {user.cart.length}</h1>
                         <img src="\images\preview_food.jpg" alt="cart_food_image" />
                         <div className='cart-item-info'>
                             <div className="dish-details">
                                 <h3>{item.name}</h3>
-                                <h4>Chef: {`${user.firstName} ${user.lastName}`}</h4>
+                                <h4>Chef: {item.chefName}</h4>
                             </div>
                             <div className="price-details">
                                 <p>Qty: <span>{item.count}</span></p>
@@ -93,7 +101,38 @@ const OrderSummaryItems = ({ cart, summary: { totalBeforeTax, cleanUpService, se
 }
 
 
-const CheckoutDisplaySummary = ({ user, cart, summary }) => {
+const CheckoutDisplaySummary = () => {
+    const { cart } = useContext(UserContext);
+    const [summary, setSummary] = useState({
+        cartTotal: 0,
+        serviceFee: 0,
+        cleanUpService: 0,
+        totalBeforeTax: 0,
+        tax: 0,
+        totalWithTax: 0,
+    });
+
+    useEffect(() => {
+        const cartTotal = cart ? cart.reduce((acc, curr) => acc + curr.price * curr.count, 0) : 0;
+        const serviceFee = cartTotal * 0.2;
+
+        // Tax needs to be found for the region that the user is in.
+        const cleanUpService = cartTotal * 0.03;
+        const totalBeforeTax = cartTotal + serviceFee + cleanUpService;
+
+        const tax = totalBeforeTax * 0.08;
+        const totalWithTax = totalBeforeTax + tax + serviceFee + cleanUpService;
+
+        setSummary({
+            cartTotal,
+            serviceFee,
+            cleanUpService,
+            totalBeforeTax,
+            tax,
+            totalWithTax,
+        });
+    }, [cart]);
+
     return (
         <div className='checkout-display-order-summary'>
             <h2>Order Summary</h2>
@@ -117,18 +156,15 @@ const CheckoutDisplaySummary = ({ user, cart, summary }) => {
     )
 }
 
+/**
+ * The main issue was that while I was updating the user inside of the CheckoutDisplayOrders component,
+ * I was also updating the user inside of the useEffect below whenever it changed.
+ * I only need the useEffect hook below to run once in case the user state is left undefined
+ * Afterwards, the user state will be updated based off of when the user updates their cart in some way.
+ */
+
 const CheckoutScreen = ({ navLinks }) => {
     const [user, setUser] = useState({});
-    const [cart, setCart] = useState(new ArrayExtension());
-    const [summary, setSummary] = useState({
-        cartTotal: 0,
-        serviceFee: 0,
-        cleanUpService: 0,
-        totalBeforeTax: 0,
-        tax: 0,
-        totalWithTax: 0,
-    });
-
     const location = useLocation();
 
     useEffect(() => {
@@ -142,30 +178,8 @@ const CheckoutScreen = ({ navLinks }) => {
                 } else {
                     setUser(location.state.user);
                 }
-                console.log(user);
-                setCart(user.cart);
             })();
         }
-        const cartTotal = cart ? cart.reduce((acc, curr) => acc + curr.price, 0) : 0;
-        const serviceFee = cartTotal * 0.2;
-
-        // Tax needs to be found for the region that the user is in.
-        const cleanUpService = cartTotal * 0.03;
-        const totalBeforeTax = cartTotal + serviceFee + cleanUpService;
-
-        const tax = totalBeforeTax * 0.08;
-        const totalWithTax = totalBeforeTax + tax + serviceFee + cleanUpService;
-
-        setSummary({
-            cartTotal,
-            serviceFee,
-            cleanUpService,
-            totalBeforeTax,
-            tax,
-            totalWithTax,
-        });
-
-        // console.log("Summary: ", summary);
     }, [user]);
 
     return (
@@ -175,8 +189,10 @@ const CheckoutScreen = ({ navLinks }) => {
                 <NavBar user={user} />
                 <Avatar user={user} navLinks={navLinks} />
                 <div className='checkout'>
-                    <CheckoutDisplayOrders user={user} cart={user.cart} setUser={setUser} />
-                    <CheckoutDisplaySummary user={user} cart={user.cart} summary={summary} />
+                    <UserContext.Provider value={{ user, cart: user.cart }}>
+                        <CheckoutDisplayOrders setUser={setUser} />
+                        <CheckoutDisplaySummary />
+                    </UserContext.Provider>
                 </div>
             </div>
         </div>

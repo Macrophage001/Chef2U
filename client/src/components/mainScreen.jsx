@@ -69,12 +69,18 @@ const MainScreen = ({ navLinks }) => {
         setOverallRating(overallRating);
     }
 
-    const onOrderProduct = (product) => {
+    // The product is being ordered by the user.
+    // The server-side controller needs to know the user that placed the order.
+    // The chef that makes the product.
+    // And the product itself.
+
+    const onOrderProduct = (chef, product) => {
         console.log('order product', product);
         tryCatch(async () => {
             const response = await axios.post('/api/cart', {
                 item: product,
-                user: user
+                user: user,
+                chef: chef,
             });
             if (response.data) {
                 console.log('order product response', response.data);

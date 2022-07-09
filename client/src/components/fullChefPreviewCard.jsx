@@ -8,8 +8,7 @@ import Card from './card';
 import { currencyFormat } from '../helper/util';
 import { orderContext } from '../context/orderContext';
 
-
-const RecipeCard = ({ recipe }) => {
+const RecipeCard = ({ chef, recipe }) => {
     const { onOrderProduct } = useContext(orderContext);
 
     return (
@@ -23,7 +22,7 @@ const RecipeCard = ({ recipe }) => {
                         </div>
                         <div className="full-chef-preview-card-recipe-content-cta">
                             <p>Price: <span>{currencyFormat(recipe.price)}</span></p>
-                            <Button onClick={() => onOrderProduct(recipe)} label="Order" />
+                            <Button onClick={() => onOrderProduct(chef, recipe)} label="Order" />
                         </div>
                     </div>
                     <div className="full-chef-preview-card-recipe-content-right">
@@ -43,11 +42,12 @@ const RecipeCard = ({ recipe }) => {
 }
 
 
-const ChefRecipes = (props) => {
+const ChefRecipes = ({ chef }) => {
+    const { recipes } = chef;
     return (
         <div className="full-chef-preview-card-recipes">
-            {props.recipes.map((recipe, index) => {
-                return <RecipeCard key={index} recipe={recipe} />;
+            {recipes.map((recipe, index) => {
+                return <RecipeCard key={index} chef={chef} recipe={recipe} />;
             })}
         </div>
     );
@@ -67,6 +67,8 @@ const FullChefPreview = ({ chef, overallRating, handleClickOnCard }) => {
         console.log(stars);
         return stars;
     }
+
+
 
     return (
         <div className="full-chef-preview">
@@ -89,7 +91,7 @@ const FullChefPreview = ({ chef, overallRating, handleClickOnCard }) => {
                     <Specialties chef={chef} />
                     <h2>Years of Experience: {chef.yearsOfExperience} Year(s)</h2>
                 </div>
-                <ChefRecipes recipes={chef.recipes} />
+                <ChefRecipes chef={chef} />
             </Card>
         </div>
     )
