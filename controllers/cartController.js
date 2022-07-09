@@ -13,16 +13,13 @@ const updateCart = (req, res) => {
 const addToCart = (req, res) => {
     tryCatch(async () => {
         const { user, item } = req.body;
-        console.log("Adding new Item to Cart: ", item);
         const cartItem = {
             ...item,
             chefId: user._id,
             count: 1
         }
-        console.log("Converted Item to Cart Item: ", cartItem);
 
         const updatedUser = await User.findById(user);
-        console.log("User before adding to cart: ", updatedUser);
         const { cart } = updatedUser;
         if (cart.find(item => item.name === cartItem.name)) {
             const index = cart.findIndex(item => item.name === cartItem.name);
@@ -31,7 +28,6 @@ const addToCart = (req, res) => {
             cart.push(cartItem);
         }
         await User.findByIdAndUpdate(user, { $set: { cart } }, { new: true });
-        console.log("User after adding to cart: ", updatedUser);
         res.send(updatedUser.cart);
     })();
 }

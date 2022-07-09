@@ -132,7 +132,7 @@ const CheckoutScreen = ({ navLinks }) => {
     const location = useLocation();
 
     useEffect(() => {
-        if (user === {}) {
+        if (user._id === undefined) {
             tryCatch(async () => {
                 if (location.state === null) {
                     const response = await axios.get('/api/auth/login');
@@ -142,10 +142,10 @@ const CheckoutScreen = ({ navLinks }) => {
                 } else {
                     setUser(location.state.user);
                 }
+                console.log(user);
+                setCart(user.cart);
             })();
         }
-        setCart(user.cart);
-
         const cartTotal = cart ? cart.reduce((acc, curr) => acc + curr.price, 0) : 0;
         const serviceFee = cartTotal * 0.2;
 
@@ -165,7 +165,7 @@ const CheckoutScreen = ({ navLinks }) => {
             totalWithTax,
         });
 
-        console.log("Summary: ", summary);
+        // console.log("Summary: ", summary);
     }, [user]);
 
     return (

@@ -1,9 +1,11 @@
-import React, { useState, useEffect, createContext } from 'react'
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 
 import { tryCatch } from '../helper/util';
+import { searchResultsOnClickContext } from '../context/searchResultContext';
+import { orderContext } from '../context/orderContext';
 
 import Avatar from './avatar';
 import SearchBar from './search/searchBar';
@@ -14,8 +16,6 @@ import FullChefPreview from './fullChefPreviewCard';
 import '../styles/mainScreen.css';
 import '../styles/searchResults.css';
 
-import { searchResultsOnClickContext } from '../context/searchResultContext';
-import { orderContext } from '../context/orderContext';
 
 const MainScreen = ({ navLinks }) => {
     const [user, setUser] = useState({});

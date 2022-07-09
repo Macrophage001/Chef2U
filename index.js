@@ -33,17 +33,16 @@ app.use(require('cors')({
     origin: 'http://localhost:3000',
     credentials: true,
     methods: ['GET', 'POST'],
-    resave: true,
 }));
 app.use(cookieParser());
 app.use(expressSession({
     key: 'userId',
     secret: crypto.randomBytes(32).toString('hex'),
-    resave: false,
     saveUninitialized: false,
     cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 7 * 2,
-    }
+    },
+    resave: true,
 }));
 
 app.use('/api', require('./routes/apiRoute'));
