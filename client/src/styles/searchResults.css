@@ -1,14 +1,14 @@
 @import url('./card.css');
 
 .search-results {
-    margin-top: -10rem;
+    position: absolute;
+    top: 14rem;
 
     display: grid;
     grid-template-columns: repeat(4, auto);
 
-    transform: scale(90%);
-
     overflow: hidden auto;
+    padding: 1rem;
 }
 
 .search-result {

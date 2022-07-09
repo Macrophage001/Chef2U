@@ -41,7 +41,13 @@ const MainScreen = ({ navLinks }) => {
                 setUser(location.state.user);
             }
         })();
-    }, []);
+
+        if (toggleFullChefPreview) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+    }, [toggleFullChefPreview]);
 
     const submitQuery = (e) => {
         e.preventDefault();
