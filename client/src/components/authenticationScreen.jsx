@@ -41,7 +41,7 @@ const SignUpForm = (props) => (
     </form>
 )
 
-const AuthenticationScreen = () => {
+const AuthenticationScreen = ({ setRoute }) => {
     axios.defaults.withCredentials = true;
     const [authType, setAuthType] = useState('log-in');
     const navigate = useNavigate();

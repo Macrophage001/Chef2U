@@ -10,6 +10,7 @@ import '../../styles/checkoutScreen.css';
 import '../../styles/button.css';
 
 import { tryCatch, ArrayExtension, currencyFormat } from '../../helper/util';
+import { useLoggedInUser } from '../../hooks/useLoggedInUser';
 
 import Button from '../button';
 import Card from '../card';
@@ -164,28 +165,13 @@ const CheckoutDisplaySummary = () => {
 
 const CheckoutScreen = ({ navLinks }) => {
     const [user, setUser] = useState({});
-    const location = useLocation();
-
-    useEffect(() => {
-        if (user._id === undefined) {
-            tryCatch(async () => {
-                if (location.state === null) {
-                    const response = await axios.get('/api/auth/login');
-                    if (response.data) {
-                        setUser(response.data);
-                    }
-                } else {
-                    setUser(location.state.user);
-                }
-            })();
-        }
-    }, [user]);
+    useLoggedInUser(useLocation(), user => setUser(user));
 
     return (
         <div className='main-screen'>
             <div className="main-screen-header" />
             <div className="main-screen-body">
-                <NavBar user={user} />
+                <NavBar user={user} setUser={setUser} />
                 <Avatar user={user} navLinks={navLinks} />
                 <div className='checkout'>
                     <UserContext.Provider value={{ user, cart: user.cart }}>

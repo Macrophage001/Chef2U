@@ -2,29 +2,15 @@ require('dotenv').config();
 
 const express = require('express');
 const crypto = require('crypto');
-const fs = require('fs');
-const path = require('path');
-const multer = require('multer');
 const cookieParser = require('cookie-parser');
 const expressSession = require('express-session');
 
-const password = "PASSWORDHERE";
+const password = "ygrgwkVhhrTLy62";
 
 const app = express();
 const port = process.env.port || 5000;
 
 require('./mongoose')(password);
-
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads')
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.fieldname + '-' + Date.now());
-    }
-});
-
-const upload = multer({ storage: storage });
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

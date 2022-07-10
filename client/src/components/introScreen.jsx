@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import { tryCatch } from '../helper/util';
@@ -7,39 +8,39 @@ import '../styles/introScreen.css';
 import MainScreen from './mainScreen';
 import AuthenticationScreen from './authenticationScreen';
 
-const IntroScreen = ({ navLinks }) => {
+const IntroScreen = ({ setRoute, navLinks, className, onAnimationEnd }) => {
     const [user, setUser] = useState(undefined);
     const [component, setComponent] = useState(<></>);
-    const [className, setClassName] = useState('');
+    // const [className, setClassName] = useState('');
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         tryCatch(async () => {
             const response = await axios.get('/api/auth/login');
-            console.log("Found user in session: ", response.data);
             if (response.data) {
-                console.log("Found session token: ", response.data.user);
                 setUser(response.data);
             }
         })();
     }, []);
 
     const unlockWebPage = () => {
-        if (user) {
-            setComponent(<MainScreen user={user} navLinks={navLinks} />);
-        } else {
-            setComponent(<AuthenticationScreen />);
-        }
-        setClassName('unlocked');
+        // if (user) {
+        //     setComponent(<MainScreen user={user} navLinks={navLinks} />);
+        // } else {
+        //     setComponent(<AuthenticationScreen />);
+        // }
+        // setClassName('unlocked');
     }
 
     return (
         <div>
-            <div className={`intro-screen ${className}`}>
+            <div className={`intro-screen ${className}`} onAnimationEnd={onAnimationEnd}>
                 <h1>Chef2U</h1>
                 <h2>Bringing <span>restaurant quality</span> food to <span>you</span>.</h2>
-                <div onClick={unlockWebPage} className="unlock-button">
+                <Link to={user ? '/home' : '/login'} state={{ user }}>
                     <img src="\images\down-arrow.png" alt="down_arrow" />
-                </div>
+                </Link>
             </div>
             {component}
         </div>

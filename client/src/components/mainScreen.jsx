@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom';
+import { useLoggedInUser } from '../hooks/useLoggedInUser';
 import axios from 'axios';
 
 
@@ -16,8 +17,7 @@ import FullChefPreview from './fullChefPreviewCard';
 import '../styles/mainScreen.css';
 import '../styles/searchResults.css';
 
-
-const MainScreen = ({ navLinks }) => {
+const MainScreen = ({ setRoute, navLinks }) => {
     const [user, setUser] = useState({});
     const [selectedChef, setSelectedChef] = useState({});
     const [overallRating, setOverallRating] = useState(0);
@@ -28,20 +28,9 @@ const MainScreen = ({ navLinks }) => {
     const [searchResults, setSearchResults] = useState([]);
     const [searchBarCompleteClassName, setSearchBarCompleteClassName] = useState('');
 
-    const location = useLocation();
 
+    useLoggedInUser(useLocation(), user => setUser(user));
     useEffect(() => {
-        tryCatch(async () => {
-            if (location.state === null) {
-                const response = await axios.get('/api/auth/login');
-                if (response.data) {
-                    setUser(response.data);
-                }
-            } else {
-                setUser(location.state.user);
-            }
-        })();
-
         if (toggleFullChefPreview) {
             document.body.style.overflow = 'hidden';
         } else {
@@ -66,19 +55,11 @@ const MainScreen = ({ navLinks }) => {
     const handleClickOnCard = (chef) => {
         setSelectedChef(chef);
         setToggleFullChefPreview(!toggleFullChefPreview);
-        console.log('clicked', chef.userName);
-        console.log('reviews', chef.reviews);
-
         const overallRating = chef.reviews.reduce((acc, curr) => {
             return acc + curr.rating;
         }, 0) / chef.reviews.length;
         setOverallRating(overallRating);
     }
-
-    // The product is being ordered by the user.
-    // The server-side controller needs to know the user that placed the order.
-    // The chef that makes the product.
-    // And the product itself.
 
     const onOrderProduct = (chef, product) => {
         console.log('order product', product);
@@ -98,14 +79,14 @@ const MainScreen = ({ navLinks }) => {
         <>
             {toggleFullChefPreview ?
                 <orderContext.Provider value={{ onOrderProduct }}>
-                    <FullChefPreview chef={selectedChef} overallRating={overallRating} handleClickOnCard={handleClickOnCard} />
+                    <FullChefPreview chef={selectedChef} handleClickOnCard={handleClickOnCard} overallRating={overallRating} />
                 </orderContext.Provider>
                 : null}
             <div className='main-screen'>
                 <div className="main-screen-header" />
                 <div className="main-screen-body">
-                    <NavBar user={user} />
-                    <Avatar user={user} navLinks={navLinks} />
+                    <NavBar setRoute={setRoute} user={user} setUser={setUser} />
+                    <Avatar user={user} setUser={setUser} navLinks={navLinks} />
                     <SearchBar className={searchBarCompleteClassName} searchQuery={searchQuery} setSearchQuery={setSearchQuery} submitQuery={submitQuery} />
                     <searchResultsOnClickContext.Provider value={{ handleClickOnCard }}>
                         {searchResults && searchResults.length > 0 && <SearchResults user={user} searchResults={searchResults} />}

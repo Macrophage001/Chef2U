@@ -42,7 +42,9 @@ const logoutUser = (req, res) => {
 const getLoggedInUser = (req, res) => {
     tryCatch(async () => {
         if (req.session.user) {
-            res.send(req.session.user);
+            const user = { ...req.session.user, avatar: { ...req.session.user.avatar, data: `data:${req.session.user.avatar.contentType};base64,${Buffer.from(req.session.user.avatar.data, 'base64').toString('base64')}` } };
+            // console.log(Buffer.from(req.session.user.avatar.data, 'base64').toString('base64'));
+            res.send(user);
         } else {
             res.status(401).send('User not logged in');
         }

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { faStar, faStarHalf } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Specialties from './search/specialties';
@@ -7,6 +7,7 @@ import Card from './card';
 
 import { currencyFormat } from '../helper/util';
 import { orderContext } from '../context/orderContext';
+import useGetAvatar from '../hooks/useGetAvatar';
 
 const RecipeCard = ({ chef, recipe }) => {
     const { onOrderProduct } = useContext(orderContext);
@@ -55,6 +56,9 @@ const ChefRecipes = ({ chef }) => {
 
 
 const FullChefPreview = ({ chef, overallRating, handleClickOnCard }) => {
+    const [avatar, setAvatar] = useState('');
+    useGetAvatar(chef, avatar => setAvatar(avatar));
+
     const calculateRating = (rating) => {
         let stars = []
         for (let i = 0; i < rating; i++) {
@@ -80,7 +84,7 @@ const FullChefPreview = ({ chef, overallRating, handleClickOnCard }) => {
                 <button className='exit-btn' onClick={() => handleClickOnCard(chef)}>&times;</button>
 
                 <div className='full-chef-image'>
-                    <img src={chef.avatar ? `data:image/${chef.avatar.contentType};base64,${chef.avatar.data.toString('base64')}` : "\\images\\chef.png"} alt="avatar" />
+                    <img src={avatar ? avatar : "\\images\\chef.png"} alt="avatar" />
                 </div>
                 <div className="full-chef-preview-card-rating">
                     <div className="full-chef-preview-card-rating-stars">

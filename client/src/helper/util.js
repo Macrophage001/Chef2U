@@ -45,5 +45,10 @@ export const currencyFormat = (new Intl.NumberFormat('en-US', {
     minimumFractionDigits: 2
 })).format;
 
+export const trace = (message, fn) => {
+    console.log(message);
+    return fn();
+}
+
 export const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
