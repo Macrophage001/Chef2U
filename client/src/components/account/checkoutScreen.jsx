@@ -51,7 +51,6 @@ const CheckoutDisplayOrders = ({ setUser }) => {
             {user.cart && user.cart.map((item, index) => {
                 return (
                     <Card className='order' key={index}>
-                        <h1>Current Cart Length: {user.cart.length}</h1>
                         <img src="\images\preview_food.jpg" alt="cart_food_image" />
                         <div className='cart-item-info'>
                             <div className="dish-details">
