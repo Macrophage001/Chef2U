@@ -25,14 +25,10 @@ const CheckoutDisplayOrders = ({ setUser }) => {
             let newCount = item.count + add;
             let newCart = new ArrayExtension(...cart);
             if (newCount < 1) {
-                console.log("Removing Item...");
                 newCount = 0;
                 const index = newCart.indexOf(item);
                 newCart = newCart.remove(index);
-                console.log("Index: " + index);
-                console.log("New Cart: ", newCart);
             } else {
-                console.log("Updating Existing Item...");
                 newCart = new ArrayExtension(...cart);
                 newCart.forEach(i => {
                     if (i.name === item.name && i.chefId === item.chefId) {
@@ -42,8 +38,7 @@ const CheckoutDisplayOrders = ({ setUser }) => {
             }
             const updatedUser = (await axios.put('/api/cart/update', { userId: user._id, newCart })).data;
             setUser(updatedUser);
-            console.log("Cart: ", cart.length);
-            console.log("Updated User Cart: ", updatedUser.cart.length);
+            localStorage.setItem('user', JSON.stringify(updatedUser));
         })();
     }
 
@@ -155,13 +150,6 @@ const CheckoutDisplaySummary = () => {
         </div>
     )
 }
-
-/**
- * The main issue was that while I was updating the user inside of the CheckoutDisplayOrders component,
- * I was also updating the user inside of the useEffect below whenever it changed.
- * I only need the useEffect hook below to run once in case the user state is left undefined
- * Afterwards, the user state will be updated based off of when the user updates their cart in some way.
- */
 
 const CheckoutScreen = ({ navLinks }) => {
     const [user, setUser] = useState({});

@@ -50,5 +50,18 @@ export const trace = (message, fn) => {
     return fn();
 }
 
+export const getAvatar = (user, onAvatarFound) => {
+    const axios = require('axios');
+    tryCatch(async () => {
+        if (user) {
+            // console.log('User received: ', user);
+            const response = await axios.get(`/api/account/avatar?userId=${user._id}`);
+            console.log("Avatar Response Data: ", response.data);
+            onAvatarFound(response.data);
+            // onAvatarFound(response.data);
+        }
+    })();
+}
+
 export const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 

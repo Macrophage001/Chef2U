@@ -1,12 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { generateUUID } from '../helper/util';
 
-import { useLoggedInUser } from '../hooks/useLoggedInUser';
-import useGetAvatar from '../hooks/useGetAvatar';
+import { useLoggedInUser, useLoggedInUserAlt } from '../hooks/useLoggedInUser';
+import { tryCatch } from '../helper/util';
+
+import axios from 'axios';
 
 import '../styles/avatar.css';
+import { useGetAvatar } from '../hooks/useGetAvatar';
 
 const AvatarMenu = ({ user, setUser, navLinks }) => {
     return (
@@ -21,12 +24,21 @@ const AvatarMenu = ({ user, setUser, navLinks }) => {
     )
 }
 
+
 const Avatar = ({ navLinks }) => {
     const [user, setUser] = useState({});
     const [avatar, setAvatar] = useState('');
 
-    useLoggedInUser(useLocation(), user => setUser(user));
-    useGetAvatar(user, (avatar) => setAvatar(avatar));
+    useLoggedInUser(useLocation(), user => {
+        setUser(user);
+    });
+
+    // const loggedInUser = useLoggedInUserAlt(useLocation());
+    const avatarURI = useGetAvatar(user);
+    useEffect(() => {
+        setAvatar(avatarURI);
+        // console.log("Avatar: ", avatarURI);
+    }, [user, avatarURI]);
 
     return (
         <div className="avatar">

@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 const crypto = require('crypto');
+const path = require('path');
 const cookieParser = require('cookie-parser');
 const expressSession = require('express-session');
 
@@ -14,7 +15,6 @@ require('./mongoose')(password);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static('public'));
 app.use(require('cors')({
     origin: 'http://localhost:3000',
     credentials: true,
@@ -30,7 +30,7 @@ app.use(expressSession({
     },
     resave: true,
 }));
-
+app.use(express.static(path.join(__dirname, '../client/build')));
 app.use('/api', require('./routes/apiRoute'));
 
 app.listen(port, () => console.log('Listening on port: ' + port));

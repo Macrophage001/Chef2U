@@ -34,7 +34,8 @@ const loginUser = (req, res) => {
 const logoutUser = (req, res) => {
     tryCatch(async () => {
         req.session.destroy();
-        const user = await User.findOneAndUpdate({ userName: req.body.userName }, { $set: { isLoggedIn: false } });
+        // console.log("Logout Query: ", req.query);
+        const user = await User.findByIdAndUpdate(req.query.userId, { isLoggedIn: false }, { new: true });
         res.send(user);
     })();
 }
@@ -42,9 +43,7 @@ const logoutUser = (req, res) => {
 const getLoggedInUser = (req, res) => {
     tryCatch(async () => {
         if (req.session.user) {
-            const user = { ...req.session.user, avatar: { ...req.session.user.avatar, data: `data:${req.session.user.avatar.contentType};base64,${Buffer.from(req.session.user.avatar.data, 'base64').toString('base64')}` } };
-            // console.log(Buffer.from(req.session.user.avatar.data, 'base64').toString('base64'));
-            res.send(user);
+            res.send(req.session.user);
         } else {
             res.status(401).send('User not logged in');
         }

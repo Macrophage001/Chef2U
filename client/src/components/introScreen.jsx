@@ -5,10 +5,8 @@ import axios from 'axios';
 import { tryCatch } from '../helper/util';
 
 import '../styles/introScreen.css';
-import MainScreen from './mainScreen';
-import AuthenticationScreen from './authenticationScreen';
 
-const IntroScreen = ({ setRoute, navLinks, className, onAnimationEnd }) => {
+const IntroScreen = ({ className, onAnimationEnd }) => {
     const [user, setUser] = useState(undefined);
     const [component, setComponent] = useState(<></>);
     // const [className, setClassName] = useState('');

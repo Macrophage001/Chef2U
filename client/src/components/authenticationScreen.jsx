@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { Buffer } from 'buffer';
 
 import '../styles/logInScreen.css';
 import '../styles/button.css';
@@ -41,13 +42,19 @@ const SignUpForm = (props) => (
     </form>
 )
 
-const AuthenticationScreen = ({ setRoute }) => {
+const AuthenticationScreen = () => {
     axios.defaults.withCredentials = true;
     const [authType, setAuthType] = useState('log-in');
     const navigate = useNavigate();
 
     const storeAuthToken = (response) => {
+        console.log(response.data);
+        if (localStorage.getItem('user')) {
+            localStorage.removeItem('user');
+        }
         localStorage.setItem('user', JSON.stringify(response.data));
+        const decodedAvatar = { ...response.data.avatar, data: Buffer.from(response.data.avatar.data, 'base64').toString('base64') };
+        localStorage.setItem('user.avatar', JSON.stringify(decodedAvatar));
     }
 
     const authTypeMap = {
@@ -75,6 +82,10 @@ const AuthenticationScreen = ({ setRoute }) => {
         password: '',
         passwordConfirmation: '',
         customerType: '',
+        avatar: {
+            data: '',
+            contentType: ''
+        }
     });
 
     const handleChange = (e) => {

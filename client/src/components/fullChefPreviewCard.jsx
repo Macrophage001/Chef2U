@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { faStar, faStarHalf } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Specialties from './search/specialties';
@@ -6,11 +6,11 @@ import Button from './button';
 import Card from './card';
 
 import { currencyFormat } from '../helper/util';
-import { orderContext } from '../context/orderContext';
-import useGetAvatar from '../hooks/useGetAvatar';
+import { OrderContext } from '../context/orderContext';
+import { useGetAvatar } from '../hooks/useGetAvatar';
 
 const RecipeCard = ({ chef, recipe }) => {
-    const { onOrderProduct } = useContext(orderContext);
+    const { onOrderProduct } = useContext(OrderContext);
 
     return (
         <Card className='full-chef-preview-card-recipe-root'>
@@ -57,7 +57,11 @@ const ChefRecipes = ({ chef }) => {
 
 const FullChefPreview = ({ chef, overallRating, handleClickOnCard }) => {
     const [avatar, setAvatar] = useState('');
-    useGetAvatar(chef, avatar => setAvatar(avatar));
+
+    const avatarURI = useGetAvatar(chef);
+    useEffect(() => {
+        setAvatar(avatarURI);
+    }, [chef, avatarURI]);
 
     const calculateRating = (rating) => {
         let stars = []

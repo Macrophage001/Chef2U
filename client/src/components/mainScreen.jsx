@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom';
-import { useLoggedInUser } from '../hooks/useLoggedInUser';
+import { useLoggedInUserAlt } from '../hooks/useLoggedInUser';
 import axios from 'axios';
 
 
 import { tryCatch } from '../helper/util';
 import { searchResultsOnClickContext } from '../context/searchResultContext';
-import { orderContext } from '../context/orderContext';
+import { OrderContext } from '../context/orderContext';
 
 import Avatar from './avatar';
 import SearchBar from './search/searchBar';
@@ -28,8 +28,11 @@ const MainScreen = ({ setRoute, navLinks }) => {
     const [searchResults, setSearchResults] = useState([]);
     const [searchBarCompleteClassName, setSearchBarCompleteClassName] = useState('');
 
+    const loggedInUser = useLoggedInUserAlt(useLocation());
+    useEffect(() => {
+        setUser(loggedInUser);
+    }, [loggedInUser]);
 
-    useLoggedInUser(useLocation(), user => setUser(user));
     useEffect(() => {
         if (toggleFullChefPreview) {
             document.body.style.overflow = 'hidden';
@@ -78,9 +81,9 @@ const MainScreen = ({ setRoute, navLinks }) => {
     return (
         <>
             {toggleFullChefPreview ?
-                <orderContext.Provider value={{ onOrderProduct }}>
+                <OrderContext.Provider value={{ onOrderProduct }}>
                     <FullChefPreview chef={selectedChef} handleClickOnCard={handleClickOnCard} overallRating={overallRating} />
-                </orderContext.Provider>
+                </OrderContext.Provider>
                 : null}
             <div className='main-screen'>
                 <div className="main-screen-header" />

@@ -5,7 +5,7 @@ const updateCart = (req, res) => {
     tryCatch(async () => {
         const { userId, newCart } = req.body;
         const updatedUser = await User.findByIdAndUpdate(userId, { $set: { cart: newCart } }, { new: true });
-        console.log("Updated Cart in DB: ", updatedUser.cart);
+        // console.log("Updated Cart in DB: ", updatedUser.cart);
         res.send(updatedUser);
     })();
 }

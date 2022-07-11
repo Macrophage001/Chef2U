@@ -1,2 +1,2 @@
 import { createContext } from "react";
-export const orderContext = createContext({});
+export const OrderContext = createContext({});

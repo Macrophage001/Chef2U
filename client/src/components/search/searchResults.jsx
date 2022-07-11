@@ -1,16 +1,21 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 
 import Specialties from './specialties';
 import Recipe from './recipe';
 import Card from '../card';
 
+import { useGetAvatar } from '../../hooks/useGetAvatar';
+
 import { searchResultsOnClickContext } from '../../context/searchResultContext';
-import useGetAvatar from '../../hooks/useGetAvatar';
 
 const SearchResult = ({ chef, ...props }) => {
     const [avatar, setAvatar] = useState('');
-    useGetAvatar(chef, avatar => setAvatar(avatar));
-    console.log("Chef: ", chef.userName, " Recipes: ", chef.recipes);
+    const avatarURI = useGetAvatar(chef);
+
+    useEffect(() => {
+        setAvatar(avatarURI);
+    }, [avatarURI]);
+
     return (
         <Card className='search-result search-result-fade-in' {...props}>
             <img className='chef-image' src={avatar ? avatar : "\\images\\chef.png"} alt="avatar" />

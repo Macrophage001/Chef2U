@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { useLocation, useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom';
 
 import Avatar from '../avatar';
 import AccountOptions from './accountOptions';
@@ -9,7 +9,7 @@ import NavBar from '../navBar';
 import { tryCatch } from '../../helper/util';
 
 import axios from 'axios';
-import { useLoggedInUser } from '../../hooks/useLoggedInUser';
+import { useLoggedInUserAlt } from '../../hooks/useLoggedInUser';
 
 const UploadAvatar = ({ handleOnSubmit, handleOnChange }) => {
     return (
@@ -23,14 +23,21 @@ const UploadAvatar = ({ handleOnSubmit, handleOnChange }) => {
 const AccountScreen = ({ navLinks }) => {
     const [user, setUser] = useState({});
     const [profileImg, setProfileImg] = useState('');
-    useLoggedInUser(useLocation(), user => setUser(user));
+
+    const loggedInUser = useLoggedInUserAlt(useLocation());
+
+    useEffect(() => {
+        if (user._id === undefined) {
+            setUser(loggedInUser);
+        }
+    }, [loggedInUser, user]);
 
     const handleOnSubmit = (e) => {
         e.preventDefault();
         tryCatch(async () => {
             const formData = new FormData();
             formData.append('profile-img', profileImg);
-            const response = await axios.post(`/api/account/profile-picture?userId=${user._id}`, formData);
+            const response = await axios.post(`/api/account/avatar?userId=${user._id}`, formData);
         })();
     }
 
