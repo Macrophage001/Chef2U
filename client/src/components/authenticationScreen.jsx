@@ -9,6 +9,7 @@ import '../styles/button.css';
 import { tryCatch } from '../helper/util';
 
 import Button from './button';
+import { tryAddToStorage } from '../helper/storageHelper';
 
 const LogInForm = (props) => (
     <form onSubmit={props.handleSubmit}>
@@ -49,12 +50,21 @@ const AuthenticationScreen = () => {
 
     const storeAuthToken = (response) => {
         console.log(response.data);
+        tryAddToStorage('session', 'user', { ...response.data, avatar: { data: null, contentType: '' } });
+        if (response.data.avatar.data) {
+            const decodedAvatar = { ...response.data.avatar, data: Buffer.from(response.data.avatar.data, 'base64').toString('base64') };
+            tryAddToStorage('session', 'user.avatar', { ...response.data, avatar: decodedAvatar });
+        }
+
         if (localStorage.getItem('user')) {
             localStorage.removeItem('user');
         }
-        localStorage.setItem('user', JSON.stringify(response.data));
-        const decodedAvatar = { ...response.data.avatar, data: Buffer.from(response.data.avatar.data, 'base64').toString('base64') };
-        localStorage.setItem('user.avatar', JSON.stringify(decodedAvatar));
+        localStorage.setItem('user', JSON.stringify({ ...response.data, avatar: { data: null, contentType: '' } }));
+        if (response.data.avatar.data) {
+            const decodedAvatar = { ...response.data.avatar, data: Buffer.from(response.data.avatar.data, 'base64').toString('base64') };
+            // console.log("Rough Byte Count of Decoded Avatar: ", 4 * decodedAvatar.data.length);
+            localStorage.setItem('user.avatar', JSON.stringify(decodedAvatar));
+        }
     }
 
     const authTypeMap = {

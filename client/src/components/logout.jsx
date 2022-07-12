@@ -17,10 +17,10 @@ const Logout = () => {
     useEffect(() => {
         if (user._id !== undefined) {
             tryCatch(async () => {
-                console.log("User Logging Out: ", user);
+                // console.log("User Logging Out: ", user);
                 const response = await axios.post(`/api/auth/logout?userId=${user._id}`);
                 localStorage.removeItem('user');
-                console.log("Logout Response: ", response);
+                // console.log("Logout Response: ", response);
                 navigate('/');
             })();
         }

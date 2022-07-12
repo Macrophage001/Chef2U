@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import IntroScreen from './components/introScreen';
 import './styles/App.css';
 

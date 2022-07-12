@@ -16,6 +16,7 @@ import FullChefPreview from './fullChefPreviewCard';
 
 import '../styles/mainScreen.css';
 import '../styles/searchResults.css';
+import { tryAddToStorage, tryGetFromStorage } from '../helper/storageHelper';
 
 const MainScreen = ({ setRoute, navLinks }) => {
     const [user, setUser] = useState({});
@@ -32,6 +33,9 @@ const MainScreen = ({ setRoute, navLinks }) => {
     useEffect(() => {
         setUser(loggedInUser);
     }, [loggedInUser]);
+    useEffect(() => {
+        tryAddToStorage('session', 'user', user);
+    }, [user]);
 
     useEffect(() => {
         if (toggleFullChefPreview) {
@@ -44,7 +48,7 @@ const MainScreen = ({ setRoute, navLinks }) => {
     const submitQuery = (e) => {
         e.preventDefault();
         tryCatch(async () => {
-            const response = await axios.get(`/api/search?query=${searchQuery}`);
+            const response = await axios.get(`/api/search?query=${searchQuery}&userId=${user._id}`);
             if (response.data) {
                 setSearchResults(response.data);
             } else {
@@ -65,15 +69,17 @@ const MainScreen = ({ setRoute, navLinks }) => {
     }
 
     const onOrderProduct = (chef, product) => {
-        console.log('order product', product);
+        // console.log('order product', product);
         tryCatch(async () => {
             const response = await axios.post('/api/cart', {
                 item: product,
-                user: user,
-                chef: chef,
+                user: { userId: user._id },
+                chef: { chefId: chef._id, firstName: chef.firstName, lastName: chef.lastName },
             });
             if (response.data) {
-                console.log('order product response', response.data);
+                // tryAddToStorage('session', 'user', response.data);
+                console.log(response.data);
+                setUser(response.data);
             }
         })();
     }

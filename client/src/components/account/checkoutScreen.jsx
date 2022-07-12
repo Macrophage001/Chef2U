@@ -10,7 +10,7 @@ import '../../styles/checkoutScreen.css';
 import '../../styles/button.css';
 
 import { tryCatch, ArrayExtension, currencyFormat } from '../../helper/util';
-import { useLoggedInUser } from '../../hooks/useLoggedInUser';
+import { useLoggedInUserAlt } from '../../hooks/useLoggedInUser';
 
 import Button from '../button';
 import Card from '../card';
@@ -96,8 +96,7 @@ const OrderSummaryItems = ({ cart, summary: { totalBeforeTax, cleanUpService, se
 }
 
 
-const CheckoutDisplaySummary = () => {
-    const { cart } = useContext(UserContext);
+const CheckoutDisplaySummary = ({ cart }) => {
     const [summary, setSummary] = useState({
         cartTotal: 0,
         serviceFee: 0,
@@ -153,7 +152,14 @@ const CheckoutDisplaySummary = () => {
 
 const CheckoutScreen = ({ navLinks }) => {
     const [user, setUser] = useState({});
-    useLoggedInUser(useLocation(), user => setUser(user));
+    // useLoggedInUser(useLocation(), user => setUser(user));
+
+    const loggedInUser = useLoggedInUserAlt(useLocation());
+
+    useEffect(() => {
+        console.log("Setting User: ", loggedInUser);
+        setUser(loggedInUser);
+    }, [loggedInUser]);
 
     return (
         <div className='main-screen'>
@@ -164,7 +170,7 @@ const CheckoutScreen = ({ navLinks }) => {
                 <div className='checkout'>
                     <UserContext.Provider value={{ user, cart: user.cart }}>
                         <CheckoutDisplayOrders setUser={setUser} />
-                        <CheckoutDisplaySummary />
+                        <CheckoutDisplaySummary cart={user.cart} />
                     </UserContext.Provider>
                 </div>
             </div>

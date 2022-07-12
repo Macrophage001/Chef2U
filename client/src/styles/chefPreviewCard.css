@@ -66,18 +66,20 @@
 }
 
 .full-chef-preview-card .full-chef-image {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    width: 20%;
+    height: 20%;
+    margin: 1rem;
 
-    width: 100%;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
     background-color: #fff;
     border-radius: 50%;
 }
 
 .full-chef-preview-card .full-chef-image img {
-    width: 20%;
+    max-width: 20%;
     border-radius: 50%;
 }
 

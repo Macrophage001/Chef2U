@@ -15,22 +15,34 @@ const addToCart = (req, res) => {
         const { item, user, chef } = req.body;
         const cartItem = {
             ...item,
-            chefId: chef._id,
+            chefId: chef.chefId,
             chefName: `${chef.firstName} ${chef.lastName}`,
             count: 1,
         }
-
-        const updatedUser = await User.findById(user);
-        const { cart } = updatedUser;
+        const oldUser = await User.findById(user.userId);
+        const { cart } = oldUser;
         if (cart.find(item => item.name === cartItem.name && item.chefId === cartItem.chefId)) {
             const index = cart.findIndex(item => item.name === cartItem.name);
             cart[index].count++;
         } else {
             cart.push(cartItem);
         }
-        await User.findByIdAndUpdate(user, { $set: { cart } }, { new: true });
-        res.send(updatedUser.cart);
+        const updatedUser = await User.findByIdAndUpdate(user.userId, { $set: { cart } }, { new: true });
+        res.send(updatedUser);
     })();
 }
 
-module.exports = { updateCart, addToCart };
+/**
+ * @description - Thinking about implementing Stripe to handle the processing of the funds.
+ * @param {*} req 
+ * @param {*} res 
+ */
+const placeOrder = (req, res) => {
+    tryCatch(async () => {
+        const { userId, cart } = req.body;
+        const updatedUser = await User.findByIdAndUpdate(userId, { $set: { cart: [], orders: cart } }, { new: true });
+        res.send(updatedUser);
+    })();
+}
+
+module.exports = { updateCart, addToCart, placeOrder };

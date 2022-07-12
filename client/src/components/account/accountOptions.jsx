@@ -3,23 +3,40 @@ import React from 'react'
 import Card from '../card';
 
 const AccountOptions = () => {
+    const Options = [
+        {
+            icon: '\\images\\open-box.png',
+            title: 'Your Orders',
+            description: 'Track your Orders, or Buy Something Again'
+        },
+        {
+            icon: '\\images\\lock.png',
+            title: 'Security',
+            description: 'Manage your Account, and Change your Password'
+        },
+        {
+            icon: '\\images\\credit-card.png',
+            title: 'Payments',
+            description: 'Manage your Credit Card, and Pay for your Orders'
+        },
+        {
+            icon: '\\images\\lock.png',
+            title: 'Settings',
+            description: 'Manage your Account, and Change your Password'
+        }
+    ]
+
     return (
         <div className='account-options'>
-            <Card className='account-option'>
-                <img className='option-icon' src="\images\open-box.png" alt="orders_image" />
-                <h2>Your Orders</h2>
-                <p>Track your Orders, or Buy Something Again</p>
-            </Card>
-            <Card className='account-option'>
-                <img className='option-icon' src="\images\lock.png" alt="orders_image" />
-                <h2>Security</h2>
-                <p>Change Login Information, Name, and Mobile Number</p>
-            </Card>
-            <Card className='account-option'>
-                <img className='option-icon' src="\images\credit-card.png" alt="orders_image" />
-                <h2>Payments</h2>
-                <p>View Transacion History and Update Payment Methods</p>
-            </Card>
+            {Options.map((option, index) => {
+                return (
+                    <Card className='account-option'>
+                        <img className='option-icon' src={option.icon} alt="orders_image" />
+                        <h2>{option.title}</h2>
+                        <p>{option.description}</p>
+                    </Card>
+                )
+            })}
         </div>
     );
 }

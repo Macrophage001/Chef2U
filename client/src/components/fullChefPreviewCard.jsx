@@ -72,7 +72,6 @@ const FullChefPreview = ({ chef, overallRating, handleClickOnCard }) => {
             stars.pop();
             stars.push(<FontAwesomeIcon className='rating-star' key={stars.length} icon={faStarHalf} />);
         }
-        console.log(stars);
         return stars;
     }
 
@@ -86,13 +85,10 @@ const FullChefPreview = ({ chef, overallRating, handleClickOnCard }) => {
         <div className="full-chef-preview" onClick={handleClick}>
             <Card className="full-chef-preview-card">
                 <button className='exit-btn' onClick={() => handleClickOnCard(chef)}>&times;</button>
-
-                <div className='full-chef-image'>
-                    <img src={avatar ? avatar : "\\images\\chef.png"} alt="avatar" />
-                </div>
+                <div className='full-chef-image' style={avatar ? { backgroundImage: `url(${avatar})` } : { backgroundImage: `url(/images/chef.png)` }} />
                 <div className="full-chef-preview-card-rating">
                     <div className="full-chef-preview-card-rating-stars">
-                        {calculateRating(overallRating).map((star, index) => (star))}
+                        {calculateRating(overallRating).map(star => star)}
                     </div>
                     <div className='full-chef-preview-card-rating-review'>
                         <button>Reviews</button>

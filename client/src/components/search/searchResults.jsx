@@ -4,12 +4,13 @@ import Specialties from './specialties';
 import Recipe from './recipe';
 import Card from '../card';
 
-import { useGetAvatar } from '../../hooks/useGetAvatar';
+import { useGetAvatar, useGetAvatars } from '../../hooks/useGetAvatar';
 
 import { searchResultsOnClickContext } from '../../context/searchResultContext';
 
 const SearchResult = ({ chef, ...props }) => {
     const [avatar, setAvatar] = useState('');
+
     const avatarURI = useGetAvatar(chef);
 
     useEffect(() => {

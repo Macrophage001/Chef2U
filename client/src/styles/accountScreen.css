@@ -36,12 +36,12 @@
 .account-options {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 6rem 0;
     place-items: center;
-    justify-content: space-around;
 
     position: relative;
     top: 8rem;
-    width: 75%;
+    width: 50%;
 }
 
 .account-option {
@@ -52,7 +52,7 @@
     justify-content: center;
     align-items: center;
 
-    width: 16rem;
+    width: 18rem;
     height: 12rem;
     position: relative;
 
@@ -60,6 +60,7 @@
 }
 
 .account-option:hover {
+    transition: all 0.15s ease-in-out;
     box-shadow: 0 0 10px #3f3f3f;
 }
 
@@ -79,7 +80,7 @@
 
 .option-icon {
     position: absolute;
-    top: -45%;
+    top: -35%;
 
     width: 6rem;
     height: 6rem;
