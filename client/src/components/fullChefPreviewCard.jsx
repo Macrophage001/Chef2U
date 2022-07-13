@@ -1,4 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
+import axios from 'axios';
+
 import { faStar, faStarHalf } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Specialties from './search/specialties';
@@ -8,9 +10,24 @@ import Card from './card';
 import { currencyFormat } from '../helper/util';
 import { OrderContext } from '../context/orderContext';
 import { useGetAvatar } from '../hooks/useGetAvatar';
+import { tryCatch } from '../helper/util';
 
 const RecipeCard = ({ chef, recipe }) => {
-    const { onOrderProduct } = useContext(OrderContext);
+    const { user, setUser } = useContext(OrderContext);
+
+    const onOrderProduct = (chef, product) => {
+        tryCatch(async () => {
+            const response = await axios.post('/api/cart', {
+                item: product,
+                user: { userId: user._id },
+                chef: { chefId: chef._id, firstName: chef.firstName, lastName: chef.lastName },
+            });
+            if (response.data) {
+                console.log(response.data);
+                setUser(response.data);
+            }
+        })();
+    }
 
     return (
         <Card className='full-chef-preview-card-recipe-root'>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, createContext } from 'react'
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 import NavBar from '../navBar';
@@ -10,10 +10,11 @@ import '../../styles/checkoutScreen.css';
 import '../../styles/button.css';
 
 import { tryCatch, ArrayExtension, currencyFormat } from '../../helper/util';
-import { useLoggedInUserAlt } from '../../hooks/useLoggedInUser';
+import { useLoggedInUser } from '../../hooks/useLoggedInUser';
 
 import Button from '../button';
 import Card from '../card';
+import { tryAddToStorage } from '../../helper/storageHelper';
 
 const UserContext = createContext({});
 
@@ -38,7 +39,7 @@ const CheckoutDisplayOrders = ({ setUser }) => {
             }
             const updatedUser = (await axios.put('/api/cart/update', { userId: user._id, newCart })).data;
             setUser(updatedUser);
-            localStorage.setItem('user', JSON.stringify(updatedUser));
+            tryAddToStorage('session', 'user', updatedUser);
         })();
     }
 
@@ -96,7 +97,9 @@ const OrderSummaryItems = ({ cart, summary: { totalBeforeTax, cleanUpService, se
 }
 
 
-const CheckoutDisplaySummary = ({ cart }) => {
+const CheckoutDisplaySummary = ({ setUser, cart, setOrderPlaced, setShowOrderStatus }) => {
+    const { user } = useContext(UserContext);
+
     const [summary, setSummary] = useState({
         cartTotal: 0,
         serviceFee: 0,
@@ -127,6 +130,22 @@ const CheckoutDisplaySummary = ({ cart }) => {
         });
     }, [cart]);
 
+    const placeOrder = () => {
+        tryCatch(async () => {
+            const { updatedUser, orderPlaced } = (await axios.post('/api/cart/placeOrder', { userId: user._id })).data;
+            console.log(updatedUser, orderPlaced);
+            if (orderPlaced) {
+                setUser(updatedUser);
+                tryAddToStorage('session', 'user', updatedUser);
+                console.log("Updated User After Checkout: ", updatedUser);
+            } else {
+                console.log('Order was not placed');
+            }
+            setOrderPlaced(orderPlaced);
+            setShowOrderStatus(true);
+        })();
+    }
+
     return (
         <div className='checkout-display-order-summary'>
             <h2>Order Summary</h2>
@@ -145,16 +164,47 @@ const CheckoutDisplaySummary = ({ cart }) => {
                 <h3>{currencyFormat(summary.totalWithTax)}</h3>
             </div>
 
-            <Button label='Place Order' />
+            <Button label='Place Order' onClick={placeOrder} />
         </div>
     )
 }
 
+const OrderStatus = ({ orderPlaced, setShowOrderStatus }) => {
+    let messageCard = null;
+
+    const handleClose = (e) => {
+        setShowOrderStatus(false);
+    };
+
+    if (orderPlaced) {
+        messageCard = (
+            <div className='order-status-display' onClick={handleClose}>
+                <Card className='order-status-card'>
+                    <h3>Order Placed</h3>
+                    <p>Your order has been placed and is being processed. You will receive a confirmation email shortly.</p>
+                </Card>
+            </div>
+        )
+    } else {
+        messageCard = (
+            <div className='order-status-display' onClick={handleClose}>
+                <Card className='order-status-card'>
+                    <h3>Order Not Placed</h3>
+                    <p>Your order has not been placed. Please try again.</p>
+                </Card>
+            </div>
+        )
+    }
+
+    return messageCard;
+}
+
 const CheckoutScreen = ({ navLinks }) => {
     const [user, setUser] = useState({});
-    // useLoggedInUser(useLocation(), user => setUser(user));
+    const [orderPlaced, setOrderPlaced] = useState(false);
+    const [showOrderStatus, setShowOrderStatus] = useState(false);
 
-    const loggedInUser = useLoggedInUserAlt(useLocation());
+    const loggedInUser = useLoggedInUser(useLocation());
 
     useEffect(() => {
         console.log("Setting User: ", loggedInUser);
@@ -162,19 +212,22 @@ const CheckoutScreen = ({ navLinks }) => {
     }, [loggedInUser]);
 
     return (
-        <div className='main-screen'>
-            <div className="main-screen-header" />
-            <div className="main-screen-body">
-                <NavBar user={user} setUser={setUser} />
-                <Avatar user={user} navLinks={navLinks} />
-                <div className='checkout'>
-                    <UserContext.Provider value={{ user, cart: user.cart }}>
-                        <CheckoutDisplayOrders setUser={setUser} />
-                        <CheckoutDisplaySummary cart={user.cart} />
-                    </UserContext.Provider>
+        <>
+            {showOrderStatus && <OrderStatus orderPlaced={orderPlaced} setShowOrderStatus={setShowOrderStatus} />}
+            <div className='main-screen'>
+                <div className="main-screen-header" />
+                <div className="main-screen-body">
+                    <NavBar user={user} setUser={setUser} />
+                    <Avatar user={user} navLinks={navLinks} />
+                    <div className='checkout'>
+                        <UserContext.Provider value={{ user, cart: user.cart }}>
+                            <CheckoutDisplayOrders setUser={setUser} />
+                            <CheckoutDisplaySummary setUser={setUser} cart={user.cart} setOrderPlaced={setOrderPlaced} setShowOrderStatus={setShowOrderStatus} />
+                        </UserContext.Provider>
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     )
 }
 

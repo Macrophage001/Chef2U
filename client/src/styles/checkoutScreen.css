@@ -1,7 +1,5 @@
 .checkout {
     display: flex;
-    align-items: flex-start;
-    justify-content: flex-end;
     width: 100%;
     height: 60vh;
 }
@@ -10,6 +8,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
 
     width: 50%;
     height: 100%;
@@ -17,6 +16,7 @@
     box-shadow: inset 0 0 10px #adadad;
     border: 1px solid #adadad;
     margin: 0 2rem;
+    margin-left: auto;
 
     overflow: hidden auto;
 }
@@ -143,4 +143,55 @@
 .checkout-display-order-total h3 {
     font-weight: lighter;
     color: #FF6B00;
+}
+
+.order-status-display {
+    position: fixed;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+    z-index: 20;
+}
+
+.order-status-card {
+    width: 24rem;
+    height: 18rem;
+    padding: 1rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    animation: status-card-scale-up 150ms ease-in-out;
+}
+
+@keyframes status-card-scale-up {
+    0% {
+        transform: scale(0);
+    }
+
+    90% {
+        transform: scale(1.08);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.order-status-card h3 {
+    text-align: center;
+    margin: 0.5rem;
+}
+
+.order-status-card p {
+    text-align: center;
 }

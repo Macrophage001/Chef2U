@@ -9,7 +9,7 @@ import NavBar from '../navBar';
 import { tryCatch } from '../../helper/util';
 
 import axios from 'axios';
-import { useLoggedInUserAlt } from '../../hooks/useLoggedInUser';
+import { useLoggedInUser } from '../../hooks/useLoggedInUser';
 
 const UploadAvatar = ({ handleOnSubmit, handleOnChange }) => {
     return (
@@ -24,7 +24,7 @@ const AccountScreen = ({ navLinks }) => {
     const [user, setUser] = useState({});
     const [profileImg, setProfileImg] = useState('');
 
-    const loggedInUser = useLoggedInUserAlt(useLocation());
+    const loggedInUser = useLoggedInUser(useLocation());
 
     useEffect(() => {
         if (user._id === undefined) {

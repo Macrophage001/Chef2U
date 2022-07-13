@@ -10,6 +10,7 @@ import AuthenticationScreen from './components/authenticationScreen';
 import AccountScreen from './components/account/accountScreen';
 import Logout from './components/logout';
 import CheckoutScreen from './components/account/checkoutScreen';
+import OrderHistoryScreen from './components/orderHistoryScreen';
 
 const avatarNavLinks = [
   { name: 'Account', link: '/account' },
@@ -26,6 +27,7 @@ root.render(
         <Route path="/" element={<App navLinks={avatarNavLinks} />} />
         <Route path="/home" element={<MainScreen navLinks={avatarNavLinks} />} />
         <Route path="/account" element={<AccountScreen navLinks={avatarNavLinks} />} />
+        <Route path="/account/orders" element={<OrderHistoryScreen navLinks={avatarNavLinks} />} />
         <Route path="/account/cart" element={<CheckoutScreen navLinks={avatarNavLinks} />} />
         <Route path="/login" element={<AuthenticationScreen />} />
         <Route path="/logout" element={<Logout />} />

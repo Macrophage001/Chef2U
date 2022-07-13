@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom';
-import { useLoggedInUserAlt } from '../hooks/useLoggedInUser';
+import { useLoggedInUser } from '../hooks/useLoggedInUser';
 import axios from 'axios';
 
 
@@ -16,7 +16,7 @@ import FullChefPreview from './fullChefPreviewCard';
 
 import '../styles/mainScreen.css';
 import '../styles/searchResults.css';
-import { tryAddToStorage, tryGetFromStorage } from '../helper/storageHelper';
+import { tryAddToStorage } from '../helper/storageHelper';
 
 const MainScreen = ({ setRoute, navLinks }) => {
     const [user, setUser] = useState({});
@@ -29,7 +29,7 @@ const MainScreen = ({ setRoute, navLinks }) => {
     const [searchResults, setSearchResults] = useState([]);
     const [searchBarCompleteClassName, setSearchBarCompleteClassName] = useState('');
 
-    const loggedInUser = useLoggedInUserAlt(useLocation());
+    const loggedInUser = useLoggedInUser(useLocation());
     useEffect(() => {
         setUser(loggedInUser);
     }, [loggedInUser]);
@@ -43,6 +43,7 @@ const MainScreen = ({ setRoute, navLinks }) => {
         } else {
             document.body.style.overflow = 'auto';
         }
+
     }, [toggleFullChefPreview]);
 
     const submitQuery = (e) => {
@@ -68,26 +69,10 @@ const MainScreen = ({ setRoute, navLinks }) => {
         setOverallRating(overallRating);
     }
 
-    const onOrderProduct = (chef, product) => {
-        // console.log('order product', product);
-        tryCatch(async () => {
-            const response = await axios.post('/api/cart', {
-                item: product,
-                user: { userId: user._id },
-                chef: { chefId: chef._id, firstName: chef.firstName, lastName: chef.lastName },
-            });
-            if (response.data) {
-                // tryAddToStorage('session', 'user', response.data);
-                console.log(response.data);
-                setUser(response.data);
-            }
-        })();
-    }
-
     return (
         <>
             {toggleFullChefPreview ?
-                <OrderContext.Provider value={{ onOrderProduct }}>
+                <OrderContext.Provider value={{ user, setUser }}>
                     <FullChefPreview chef={selectedChef} handleClickOnCard={handleClickOnCard} overallRating={overallRating} />
                 </OrderContext.Provider>
                 : null}

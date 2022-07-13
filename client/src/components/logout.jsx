@@ -3,11 +3,11 @@ import { tryCatch } from '../helper/util'
 import axios from 'axios'
 
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useLoggedInUser, useLoggedInUserAlt } from '../hooks/useLoggedInUser';
+import { useLoggedInUser } from '../hooks/useLoggedInUser';
 
 const Logout = () => {
     const [user, setUser] = useState({});
-    const loggedInUser = useLoggedInUserAlt(useLocation());
+    const loggedInUser = useLoggedInUser(useLocation());
 
     useEffect(() => {
         setUser(loggedInUser);

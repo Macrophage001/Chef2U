@@ -1,5 +1,11 @@
 import { tryCatch } from "./util";
 
+/**
+ * @description Returns the parsed object from the storage defined by type.
+ * @param {string} storageType 
+ * @param {string} key 
+ * @returns any | undefined
+ */
 export const tryGetFromStorage = (storageType, key) => {
     return tryCatch(() => {
         switch (storageType) {
@@ -8,12 +14,19 @@ export const tryGetFromStorage = (storageType, key) => {
             case 'local':
                 return JSON.parse(localStorage.getItem(key));
             default:
-                return null;
+                return undefined;
         }
     }, err => {
         console.log(`Could not get ${storageType} avatar for key: ${key}`, err);
     })();
 }
+
+/**
+ * @description - Sets the stringified value of the key in the storage defined by storage type.
+ * @param {string} storageType 
+ * @param {string} key 
+ * @param {*} value
+ */
 export const tryAddToStorage = (storageType, key, value) => {
     return tryCatch(() => {
         switch (storageType) {
@@ -28,6 +41,13 @@ export const tryAddToStorage = (storageType, key, value) => {
         console.log(`Could not set ${storageType} avatar for key: ${key}`, err);
     })();
 }
+
+/**
+ * @description - Removes the key from the storage defined by storage type.
+ * @param {string} storageType 
+ * @param {string} key 
+ * @returns 
+ */
 export const tryRemoveFromStorage = (storageType, key) => {
     return tryCatch(() => {
         switch (storageType) {
@@ -42,6 +62,12 @@ export const tryRemoveFromStorage = (storageType, key) => {
         console.log(`Could not remove ${storageType} avatar for key: ${key}`, err);
     })();
 }
+
+/**
+ * @description - Removes all keys from the storage defined by storage type.
+ * @param {string} storageType 
+ * @returns 
+ */
 export const tryClearStorage = (storageType) => {
     return tryCatch(() => {
         switch (storageType) {

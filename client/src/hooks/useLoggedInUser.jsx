@@ -8,7 +8,7 @@ import { tryAddToStorage, tryGetFromStorage } from '../helper/storageHelper';
  * @param {*} location 
  * @param {*} onUserFound
  */
-export const useLoggedInUser = (location, onUserFound) => {
+export const useLoggedInUserDEPRECATED = (location, onUserFound) => {
     useEffect(() => {
         tryCatch(async () => {
             const sessionUser = tryGetFromStorage('session', 'user');
@@ -30,25 +30,28 @@ export const useLoggedInUser = (location, onUserFound) => {
     }, []);
 };
 
-export const useLoggedInUserAlt = (location) => {
+export const useLoggedInUser = (location) => {
     const [user, setUser] = useState({});
 
     useEffect(() => {
         tryCatch(async () => {
             const sessionUser = tryGetFromStorage('session', 'user');
+            console.log('sessionUser: ', sessionUser);
+
             if (sessionUser._id !== undefined) {
                 setUser(sessionUser);
             } else {
+                let user = {};
                 if (!location.state) {
                     const response = await axios.get('/api/auth/login');
                     if (response.data) {
-                        setUser(response.data);
-                        tryAddToStorage('session', 'user', response.data);
+                        user = response.data;
                     }
                 } else {
-                    setUser(location.state.user);
-                    tryAddToStorage('session', 'user', location.state.user);
+                    user = location.state.user;
                 }
+                setUser(user);
+                tryAddToStorage('session', 'user', user);
             }
         })();
     }, []);

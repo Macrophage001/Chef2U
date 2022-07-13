@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { generateUUID } from '../helper/util';
 
-import { useLoggedInUser, useLoggedInUserAlt } from '../hooks/useLoggedInUser';
+import { useLoggedInUser } from '../hooks/useLoggedInUser';
 import { tryCatch } from '../helper/util';
 
 import axios from 'axios';
@@ -29,16 +29,15 @@ const Avatar = ({ navLinks }) => {
     const [user, setUser] = useState({});
     const [avatar, setAvatar] = useState('');
 
-    useLoggedInUser(useLocation(), user => {
-        setUser(user);
-    });
+    const loggedInUser = useLoggedInUser(useLocation());
+    useEffect(() => {
+        setUser(loggedInUser);
+    }, [loggedInUser]);
 
-    // const loggedInUser = useLoggedInUserAlt(useLocation());
     const avatarURI = useGetAvatar(user);
     useEffect(() => {
         setAvatar(avatarURI);
-        // console.log("Avatar: ", avatarURI);
-    }, [user, avatarURI]);
+    }, [avatarURI]);
 
     return (
         <div className="avatar">

@@ -39,9 +39,27 @@ const addToCart = (req, res) => {
  */
 const placeOrder = (req, res) => {
     tryCatch(async () => {
-        const { userId, cart } = req.body;
-        const updatedUser = await User.findByIdAndUpdate(userId, { $set: { cart: [], orders: cart } }, { new: true });
-        res.send(updatedUser);
+        console.log("Place Order Request: ", req.body);
+
+        const { userId } = req.body;
+        const user = await User.findById(userId);
+        const { cart, orderHistory } = user;
+
+        const todaysDate = new Date();
+        const todaysDataString = `${todaysDate.getFullYear()}-${todaysDate.getMonth() + 1}-${todaysDate.getDate()}`;
+
+        const newOrderHistory = cart.map(item => {
+            return {
+                ...item,
+                dateOrdered: todaysDataString,
+            }
+        });
+
+        const updatedUser = await User.findByIdAndUpdate(userId, { $set: { cart: [], orderHistory: [...orderHistory, ...newOrderHistory] } }, { new: true });
+        res.send({ updatedUser, orderPlaced: true });
+    }, err => {
+        console.log("Error in placeOrder: ", err);
+        res.send({ updatedUser: {}, orderPlaced: false });
     })();
 }
 
