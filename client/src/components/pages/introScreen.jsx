@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
-import { tryCatch } from '../helper/util';
+import MainScreen from './mainScreen';
+import AuthenticationScreen from './authenticationScreen';
 
-import '../styles/introScreen.css';
+import { tryCatch } from '../../helper/util';
 
-const IntroScreen = ({ className, onAnimationEnd }) => {
+import '../../styles/introScreen.css';
+
+const IntroScreen = ({ onAnimationEnd, navLinks }) => {
     const [user, setUser] = useState(undefined);
     const [component, setComponent] = useState(<></>);
-    // const [className, setClassName] = useState('');
-
-    const navigate = useNavigate();
+    const [className, setClassName] = useState('');
 
     useEffect(() => {
         tryCatch(async () => {
@@ -23,12 +24,12 @@ const IntroScreen = ({ className, onAnimationEnd }) => {
     }, []);
 
     const unlockWebPage = () => {
-        // if (user) {
-        //     setComponent(<MainScreen user={user} navLinks={navLinks} />);
-        // } else {
-        //     setComponent(<AuthenticationScreen />);
-        // }
-        // setClassName('unlocked');
+        if (user) {
+            setComponent(<MainScreen user={user} navLinks={navLinks} />);
+        } else {
+            setComponent(<AuthenticationScreen />);
+        }
+        setClassName('unlocked');
     }
 
     return (
@@ -36,9 +37,9 @@ const IntroScreen = ({ className, onAnimationEnd }) => {
             <div className={`intro-screen ${className}`} onAnimationEnd={onAnimationEnd}>
                 <h1>Chef2U</h1>
                 <h2>Bringing <span>restaurant quality</span> food to <span>you</span>.</h2>
-                <Link to={user ? '/home' : '/login'} state={{ user }}>
+                <div onClick={unlockWebPage} className="unlock-button">
                     <img src="\images\down-arrow.png" alt="down_arrow" />
-                </Link>
+                </div>
             </div>
             {component}
         </div>

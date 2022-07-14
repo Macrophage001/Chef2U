@@ -3,45 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Buffer } from 'buffer';
 
-import '../styles/logInScreen.css';
-import '../styles/button.css';
+import '../../styles/logInScreen.css';
+import '../../styles/button.css';
 
-import { tryCatch } from '../helper/util';
+import { tryCatch } from '../../helper/util';
 
-import Button from './button';
-import { tryAddToStorage } from '../helper/storageHelper';
+import Button from '../ui/button';
+import LogInForm from '../authentication/logIn';
+import SignUpForm from '../authentication/signUp';
 
-const LogInForm = (props) => (
-    <form onSubmit={props.handleSubmit}>
-        <input type="text" name='userName' placeholder='Username...' value={props.userName} onChange={props.handleChange} />
-        <input type="password" name='password' placeholder='Password...' value={props.password} onChange={props.handleChange} />
-        <input type="submit" value="Submit" style={{ display: 'none' }} />
-    </form>
-)
-
-const SignUpForm = (props) => (
-    <form onSubmit={props.handleSubmit}>
-        <input type="text" name='firstName' placeholder='First Name...' value={props.name} onChange={props.handleChange} />
-        <input type="text" name='lastName' placeholder='Last Name...' value={props.name} onChange={props.handleChange} />
-        <input type="text" name='userName' placeholder='User Name...' value={props.name} onChange={props.handleChange} />
-        <input type="text" name='email' placeholder='Email...' value={props.email} onChange={props.handleChange} />
-        <input type="password" name='password' placeholder='Password...' value={props.password} onChange={props.handleChange} />
-        <input type="password" name='passwordConfirmation' placeholder='Confirm Password...' value={props.passwordConfirmation} onChange={props.handleChange} />
-
-        <h2>Are you a:</h2>
-        <div className="form-customer-type">
-            <div className="type">
-                <img src="/images/chef.png" alt="chef_image" />
-                <input type="radio" required={true} name='customerType' value="Chef" onChange={props.handleChange} />
-            </div>
-            <div className="type">
-                <img src="/images/eating-disorder.png" alt="customer_image" />
-                <input type="radio" required={true} name='customerType' value="Customer" onChange={props.handleChange} />
-            </div>
-        </div>
-        <input type="submit" value="Submit" style={{ display: 'none' }} />
-    </form>
-)
+import { tryAddToStorage } from '../../helper/storageHelper';
 
 const AuthenticationScreen = () => {
     axios.defaults.withCredentials = true;

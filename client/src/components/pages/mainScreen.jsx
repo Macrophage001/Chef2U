@@ -1,22 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom';
-import { useLoggedInUser } from '../hooks/useLoggedInUser';
+import { useLoggedInUser } from '../../hooks/useLoggedInUser';
 import axios from 'axios';
 
+import { tryCatch } from '../../helper/util';
+import { searchResultsOnClickContext } from '../../context/searchResultContext';
+import { OrderContext } from '../../context/orderContext';
+import { tryAddToStorage } from '../../helper/storageHelper';
 
-import { tryCatch } from '../helper/util';
-import { searchResultsOnClickContext } from '../context/searchResultContext';
-import { OrderContext } from '../context/orderContext';
+import Avatar from '../ui/avatar';
+import SearchBar from '../search/searchBar';
+import SearchResults from '../search/searchResults';
+import NavBar from '../navBar';
+import FullChefPreview from '../ui/fullChefPreviewCard';
 
-import Avatar from './avatar';
-import SearchBar from './search/searchBar';
-import SearchResults from './search/searchResults';
-import NavBar from './navBar';
-import FullChefPreview from './fullChefPreviewCard';
-
-import '../styles/mainScreen.css';
-import '../styles/searchResults.css';
-import { tryAddToStorage } from '../helper/storageHelper';
+import '../../styles/mainScreen.css';
+import '../../styles/searchResults.css';
 
 const MainScreen = ({ setRoute, navLinks }) => {
     const [user, setUser] = useState({});

@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { generateUUID } from '../helper/util';
+import { generateUUID } from '../../helper/util';
 
-import { useLoggedInUser } from '../hooks/useLoggedInUser';
-import { tryCatch } from '../helper/util';
+import { useLoggedInUser } from '../../hooks/useLoggedInUser';
 
-import axios from 'axios';
-
-import '../styles/avatar.css';
-import { useGetAvatar } from '../hooks/useGetAvatar';
+import '../../styles/avatar.css';
+import { useGetAvatar } from '../../hooks/useGetAvatar';
 
 const AvatarMenu = ({ user, setUser, navLinks }) => {
     return (

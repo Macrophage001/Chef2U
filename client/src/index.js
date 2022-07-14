@@ -5,12 +5,13 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './index.css';
 
 import App from './App';
-import MainScreen from './components/mainScreen';
-import AuthenticationScreen from './components/authenticationScreen';
-import AccountScreen from './components/account/accountScreen';
+import MainScreen from './components/pages/mainScreen';
+import AuthenticationScreen from './components/pages/authenticationScreen';
+import AccountScreen from './components/pages/accountScreen';
 import Logout from './components/logout';
-import CheckoutScreen from './components/account/checkoutScreen';
-import OrderHistoryScreen from './components/orderHistoryScreen';
+import CheckoutScreen from './components/pages/checkoutScreen';
+import OrderHistoryScreen from './components/pages/orderHistoryScreen';
+import AccountDetailsScreen from './components/pages/accountDetailsScreen';
 
 const avatarNavLinks = [
   { name: 'Account', link: '/account' },
@@ -28,6 +29,7 @@ root.render(
         <Route path="/home" element={<MainScreen navLinks={avatarNavLinks} />} />
         <Route path="/account" element={<AccountScreen navLinks={avatarNavLinks} />} />
         <Route path="/account/orders" element={<OrderHistoryScreen navLinks={avatarNavLinks} />} />
+        <Route path="/account/profile" element={<AccountDetailsScreen navLinks={avatarNavLinks} />} />
         <Route path="/account/cart" element={<CheckoutScreen navLinks={avatarNavLinks} />} />
         <Route path="/login" element={<AuthenticationScreen />} />
         <Route path="/logout" element={<Logout />} />

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import IntroScreen from './components/introScreen';
+import IntroScreen from './components/pages/introScreen';
 import './styles/App.css';
 
 const App = ({ navLinks }) => {

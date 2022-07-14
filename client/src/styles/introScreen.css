@@ -114,3 +114,7 @@
         display: none;
     }
 }
+
+.unlock-button {
+    cursor: pointer;
+}

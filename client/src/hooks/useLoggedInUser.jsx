@@ -36,8 +36,6 @@ export const useLoggedInUser = (location) => {
     useEffect(() => {
         tryCatch(async () => {
             const sessionUser = tryGetFromStorage('session', 'user');
-            console.log('sessionUser: ', sessionUser);
-
             if (sessionUser._id !== undefined) {
                 setUser(sessionUser);
             } else {

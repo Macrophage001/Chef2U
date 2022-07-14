@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react'
 
 import Specialties from './specialties';
 import Recipe from './recipe';
-import Card from '../card';
+import Card from '../ui/card';
 
 import { useGetAvatar, useGetAvatars } from '../../hooks/useGetAvatar';
 

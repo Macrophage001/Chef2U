@@ -19,3 +19,26 @@
 .orange-button:hover {
     background-color: #ff7817;
 }
+
+.orange-button:disabled {
+    background-color: #2b1d13;
+    cursor: not-allowed;
+}
+
+.bounce {
+    animation: bounce 150ms ease-in-out infinite;
+}
+
+@keyframes bounce {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}

@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useContext, createContext } from 'react'
 import { useLocation } from 'react-router-dom';
 
-import NavBar from './navBar';
-import Avatar from './avatar';
+import NavBar from '../navBar';
+import Avatar from '../ui/avatar';
 
-import '../styles/mainScreen.css';
-import '../styles/orderHistoryScreen.css';
-import '../styles/button.css';
+import '../../styles/mainScreen.css';
+import '../../styles/orderHistoryScreen.css';
+import '../../styles/button.css';
 
-import { useLoggedInUser } from '../hooks/useLoggedInUser';
-import { currencyFormat } from '../helper/util';
-import Card from './card';
+import { useLoggedInUser } from '../../hooks/useLoggedInUser';
+import { currencyFormat } from '../../helper/util';
+import Card from '../ui/card';
 
 const UserContext = createContext({});
 

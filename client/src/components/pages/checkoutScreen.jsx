@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 import NavBar from '../navBar';
-import Avatar from '../avatar';
+import Avatar from '../ui/avatar';
 
 import '../../styles/mainScreen.css';
 import '../../styles/checkoutScreen.css';
@@ -12,8 +12,8 @@ import '../../styles/button.css';
 import { tryCatch, ArrayExtension, currencyFormat } from '../../helper/util';
 import { useLoggedInUser } from '../../hooks/useLoggedInUser';
 
-import Button from '../button';
-import Card from '../card';
+import Button from '../ui/button';
+import Card from '../ui/card';
 import { tryAddToStorage } from '../../helper/storageHelper';
 
 const UserContext = createContext({});
@@ -99,6 +99,7 @@ const OrderSummaryItems = ({ cart, summary: { totalBeforeTax, cleanUpService, se
 
 const CheckoutDisplaySummary = ({ setUser, cart, setOrderPlaced, setShowOrderStatus }) => {
     const { user } = useContext(UserContext);
+    const [cartLength, setCartLength] = useState(0);
 
     const [summary, setSummary] = useState({
         cartTotal: 0,
@@ -110,30 +111,33 @@ const CheckoutDisplaySummary = ({ setUser, cart, setOrderPlaced, setShowOrderSta
     });
 
     useEffect(() => {
-        const cartTotal = cart ? cart.reduce((acc, curr) => acc + curr.price * curr.count, 0) : 0;
-        const serviceFee = cartTotal * 0.2;
+        if (cart) {
+            setCartLength(cart.length);
 
-        // Tax needs to be found for the region that the user is in.
-        const cleanUpService = cartTotal * 0.03;
-        const totalBeforeTax = cartTotal + serviceFee + cleanUpService;
+            const cartTotal = cart ? cart.reduce((acc, curr) => acc + curr.price * curr.count, 0) : 0;
+            const serviceFee = cartTotal * 0.2;
 
-        const tax = totalBeforeTax * 0.08;
-        const totalWithTax = totalBeforeTax + tax + serviceFee + cleanUpService;
+            // Tax needs to be found for the region that the user is in.
+            const cleanUpService = cartTotal * 0.03;
+            const totalBeforeTax = cartTotal + serviceFee + cleanUpService;
 
-        setSummary({
-            cartTotal,
-            serviceFee,
-            cleanUpService,
-            totalBeforeTax,
-            tax,
-            totalWithTax,
-        });
+            const tax = totalBeforeTax * 0.08;
+            const totalWithTax = totalBeforeTax + tax + serviceFee + cleanUpService;
+
+            setSummary({
+                cartTotal,
+                serviceFee,
+                cleanUpService,
+                totalBeforeTax,
+                tax,
+                totalWithTax,
+            });
+        }
     }, [cart]);
 
     const placeOrder = () => {
         tryCatch(async () => {
             const { updatedUser, orderPlaced } = (await axios.post('/api/cart/placeOrder', { userId: user._id })).data;
-            console.log(updatedUser, orderPlaced);
             if (orderPlaced) {
                 setUser(updatedUser);
                 tryAddToStorage('session', 'user', updatedUser);
@@ -164,7 +168,7 @@ const CheckoutDisplaySummary = ({ setUser, cart, setOrderPlaced, setShowOrderSta
                 <h3>{currencyFormat(summary.totalWithTax)}</h3>
             </div>
 
-            <Button label='Place Order' onClick={placeOrder} />
+            <Button disabled={cartLength === 0} label='Place Order' onClick={placeOrder} />
         </div>
     )
 }
@@ -207,7 +211,6 @@ const CheckoutScreen = ({ navLinks }) => {
     const loggedInUser = useLoggedInUser(useLocation());
 
     useEffect(() => {
-        console.log("Setting User: ", loggedInUser);
         setUser(loggedInUser);
     }, [loggedInUser]);
 

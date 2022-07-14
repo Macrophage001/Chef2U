@@ -3,14 +3,14 @@ import axios from 'axios';
 
 import { faStar, faStarHalf } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Specialties from './search/specialties';
+import Specialties from '../search/specialties';
 import Button from './button';
 import Card from './card';
 
-import { currencyFormat } from '../helper/util';
-import { OrderContext } from '../context/orderContext';
-import { useGetAvatar } from '../hooks/useGetAvatar';
-import { tryCatch } from '../helper/util';
+import { currencyFormat } from '../../helper/util';
+import { OrderContext } from '../../context/orderContext';
+import { useGetAvatar } from '../../hooks/useGetAvatar';
+import { tryCatch } from '../../helper/util';
 
 const RecipeCard = ({ chef, recipe }) => {
     const { user, setUser } = useContext(OrderContext);

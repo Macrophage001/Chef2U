@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom';
 
-import Avatar from '../avatar';
-import AccountOptions from './accountOptions';
+import Avatar from '../ui/avatar';
+import AccountOptions from '../account/accountOptions';
 
 import '../../styles/accountScreen.css';
 import NavBar from '../navBar';
@@ -49,7 +49,7 @@ const AccountScreen = ({ navLinks }) => {
         <div className='account-screen'>
             <div className="account-screen-header" />
             <div className="account-screen-body">
-                <UploadAvatar handleOnChange={handleOnChange} handleOnSubmit={handleOnSubmit} />
+                {/* <UploadAvatar handleOnChange={handleOnChange} handleOnSubmit={handleOnSubmit} /> */}
                 <NavBar user={user} setUser={setUser} />
                 <Avatar user={user} navLinks={navLinks} />
                 <AccountOptions />
