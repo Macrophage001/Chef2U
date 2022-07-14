@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import IntroScreen from './components/pages/introScreen';
 import './styles/App.css';
 

@@ -4,9 +4,9 @@ import Specialties from './specialties';
 import Recipe from './recipe';
 import Card from '../ui/card';
 
-import { useGetAvatar, useGetAvatars } from '../../hooks/useGetAvatar';
+import { useGetAvatar } from '../../hooks/useGetAvatar';
 
-import { searchResultsOnClickContext } from '../../context/searchResultContext';
+import { SearchResultsContext } from '../../context/searchResultsContext';
 
 const SearchResult = ({ chef, ...props }) => {
     const [avatar, setAvatar] = useState('');
@@ -30,7 +30,7 @@ const SearchResult = ({ chef, ...props }) => {
 }
 
 const SearchResults = ({ searchResults, }) => {
-    const { handleClickOnCard } = useContext(searchResultsOnClickContext);
+    const { handleClickOnCard } = useContext(SearchResultsContext);
 
     const handleAnimationEnd = (e) => {
         e.target.classList.remove('search-result-fade-in');

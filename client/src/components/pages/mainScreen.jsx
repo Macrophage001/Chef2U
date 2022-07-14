@@ -4,7 +4,7 @@ import { useLoggedInUser } from '../../hooks/useLoggedInUser';
 import axios from 'axios';
 
 import { tryCatch } from '../../helper/util';
-import { searchResultsOnClickContext } from '../../context/searchResultContext';
+import { SearchResultsContext } from '../../context/searchResultsContext';
 import { OrderContext } from '../../context/orderContext';
 import { tryAddToStorage } from '../../helper/storageHelper';
 
@@ -81,9 +81,9 @@ const MainScreen = ({ setRoute, navLinks }) => {
                     <NavBar setRoute={setRoute} user={user} setUser={setUser} />
                     <Avatar user={user} setUser={setUser} navLinks={navLinks} />
                     <SearchBar className={searchBarCompleteClassName} searchQuery={searchQuery} setSearchQuery={setSearchQuery} submitQuery={submitQuery} />
-                    <searchResultsOnClickContext.Provider value={{ handleClickOnCard }}>
+                    <SearchResultsContext.Provider value={{ handleClickOnCard }}>
                         {searchResults && searchResults.length > 0 && <SearchResults user={user} searchResults={searchResults} />}
-                    </searchResultsOnClickContext.Provider>
+                    </SearchResultsContext.Provider>
                 </div>
             </div>
         </>
