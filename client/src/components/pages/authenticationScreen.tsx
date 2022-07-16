@@ -1,25 +1,33 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, SyntheticEvent, BaseSyntheticEvent } from 'react'
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { Buffer } from 'buffer';
 
 import '../../styles/logInScreen.css';
 import '../../styles/button.css';
 
-import { tryCatch } from '../../helper/util';
+import { encryptPassword, tryCatch } from '../../helper/util';
 
 import Button from '../ui/button';
 import LogInForm from '../authentication/logIn';
 import SignUpForm from '../authentication/signUp';
 
 import { tryAddToStorage } from '../../helper/storageHelper';
+import { ICredentials } from '../../interfaces/IUser';
+
+interface ICustomSyntheticEvent extends BaseSyntheticEvent {
+    target: {
+        name: string,
+        value: any
+    }
+}
 
 const AuthenticationScreen = () => {
     axios.defaults.withCredentials = true;
-    const [authType, setAuthType] = useState('log-in');
+    const [authType, setAuthType] = useState('log-in' as keyof (typeof authTypeFormMap | typeof authTypeMap));
     const navigate = useNavigate();
 
-    const storeAuthToken = (response) => {
+    const storeAuthToken = (response: AxiosResponse) => {
         console.log(response.data);
         tryAddToStorage('session', 'user', { ...response.data, avatar: { data: null, contentType: '' } });
         if (response.data.avatar.data) {
@@ -33,7 +41,6 @@ const AuthenticationScreen = () => {
         localStorage.setItem('user', JSON.stringify({ ...response.data, avatar: { data: null, contentType: '' } }));
         if (response.data.avatar.data) {
             const decodedAvatar = { ...response.data.avatar, data: Buffer.from(response.data.avatar.data, 'base64').toString('base64') };
-            // console.log("Rough Byte Count of Decoded Avatar: ", 4 * decodedAvatar.data.length);
             localStorage.setItem('user.avatar', JSON.stringify(decodedAvatar));
         }
     }
@@ -67,17 +74,18 @@ const AuthenticationScreen = () => {
             data: '',
             contentType: ''
         }
-    });
+    } as ICredentials);
 
-    const handleChange = (e) => {
+    const handleChange = (e: ICustomSyntheticEvent) => {
         const newCredentials = credentials;
-        newCredentials[e.target.name] = e.target.value;
+        const { name, value } = e.target;
+        newCredentials[name as keyof ICredentials] = value;
         setCredentials(newCredentials);
     }
 
     const authTypeFormMap = {
-        'log-in': <LogInForm handleSubmit={authTypeMap[authType]} handleChange={handleChange} />,
-        'sign-up': <SignUpForm handleSubmit={authTypeMap[authType]} handleChange={handleChange} />
+        'log-in': <LogInForm credentials={credentials} handleSubmit={authTypeMap[authType]} handleChange={handleChange} />,
+        'sign-up': <SignUpForm credentials={credentials} handleSubmit={authTypeMap[authType]} handleChange={handleChange} />
     }
 
     return (

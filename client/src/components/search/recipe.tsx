@@ -1,6 +1,12 @@
 import React from 'react'
 
-const Recipe = ({ recipe }) => {
+import { IRecipe } from '../../interfaces/IUser';
+
+interface IRecipeProps {
+    recipe: IRecipe;
+}
+
+const Recipe: React.FC<IRecipeProps> = ({ recipe }) => {
     return (
         <div className="chef-recipe">
             <img src="/images/preview_food.jpg" alt="chef_image" />

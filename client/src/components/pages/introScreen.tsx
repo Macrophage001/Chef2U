@@ -5,10 +5,12 @@ import MainScreen from './mainScreen';
 import AuthenticationScreen from './authenticationScreen';
 
 import { tryCatch } from '../../helper/util';
+import { INavLinks } from '../../interfaces/INavLinks';
+
 
 import '../../styles/introScreen.css';
 
-const IntroScreen = ({ onAnimationEnd, navLinks }) => {
+const IntroScreen: React.FC<INavLinks> = ({ navLinks }) => {
     const [user, setUser] = useState(undefined);
     const [component, setComponent] = useState(<></>);
     const [className, setClassName] = useState('');
@@ -24,7 +26,7 @@ const IntroScreen = ({ onAnimationEnd, navLinks }) => {
 
     const unlockWebPage = () => {
         if (user) {
-            setComponent(<MainScreen user={user} navLinks={navLinks} />);
+            setComponent(<MainScreen navLinks={navLinks} />);
         } else {
             setComponent(<AuthenticationScreen />);
         }
@@ -33,7 +35,8 @@ const IntroScreen = ({ onAnimationEnd, navLinks }) => {
 
     return (
         <div>
-            <div className={`intro-screen ${className}`} onAnimationEnd={onAnimationEnd}>
+            {/* <div className={`intro-screen ${className}`} onAnimationEnd={onAnimationEnd}> */}
+            <div className={`intro-screen ${className}`}>
                 <h1>Chef2U</h1>
                 <h2>Bringing <span>restaurant quality</span> food to <span>you</span>.</h2>
                 <div onClick={unlockWebPage} className="unlock-button">

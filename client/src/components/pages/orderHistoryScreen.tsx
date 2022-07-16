@@ -11,8 +11,13 @@ import '../../styles/button.css';
 import { useLoggedInUser } from '../../hooks/useLoggedInUser';
 import { currencyFormat } from '../../helper/util';
 import Card from '../ui/card';
+import { IUser } from '../../interfaces/IUser';
+import { INavLinks } from '../../interfaces/INavLinks';
 
-const UserContext = createContext({});
+interface IUserContext {
+    user: IUser;
+}
+const UserContext = createContext({} as IUserContext);
 
 const OrderHistory = () => {
     const { user } = useContext(UserContext);
@@ -41,8 +46,8 @@ const OrderHistory = () => {
     )
 }
 
-const OrderHistoryScreen = ({ navLinks }) => {
-    const [user, setUser] = useState({});
+const OrderHistoryScreen: React.FC<INavLinks> = ({ navLinks }) => {
+    const [user, setUser] = useState({} as IUser);
     const loggedInUser = useLoggedInUser(useLocation());
 
     useEffect(() => {
@@ -54,9 +59,9 @@ const OrderHistoryScreen = ({ navLinks }) => {
             <div className="main-screen-header" />
             <div className="main-screen-body">
                 <NavBar user={user} setUser={setUser} />
-                <Avatar user={user} navLinks={navLinks} />
+                <Avatar navLinks={navLinks} />
                 <div className='orders'>
-                    <UserContext.Provider value={{ user, cart: user.cart }}>
+                    <UserContext.Provider value={{ user }}>
                         <OrderHistory />
                     </UserContext.Provider>
                 </div>

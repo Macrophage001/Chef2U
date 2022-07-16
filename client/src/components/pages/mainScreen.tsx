@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, SyntheticEvent } from 'react'
 import { useLocation } from 'react-router-dom';
 import { useLoggedInUser } from '../../hooks/useLoggedInUser';
 import axios from 'axios';
@@ -7,6 +7,8 @@ import { tryCatch } from '../../helper/util';
 import { SearchResultsContext } from '../../context/searchResultsContext';
 import { OrderContext } from '../../context/orderContext';
 import { tryAddToStorage } from '../../helper/storageHelper';
+import { IUser } from '../../interfaces/IUser';
+import { INavLinks } from '../../interfaces/INavLinks';
 
 import Avatar from '../ui/avatar';
 import SearchBar from '../search/searchBar';
@@ -17,9 +19,9 @@ import FullChefPreview from '../ui/fullChefPreviewCard';
 import '../../styles/mainScreen.css';
 import '../../styles/searchResults.css';
 
-const MainScreen = ({ setRoute, navLinks }) => {
-    const [user, setUser] = useState({});
-    const [selectedChef, setSelectedChef] = useState({});
+const MainScreen: React.FC<INavLinks> = ({ navLinks }) => {
+    const [user, setUser] = useState({} as IUser);
+    const [selectedChef, setSelectedChef] = useState({} as IUser);
     const [overallRating, setOverallRating] = useState(0);
 
     const [toggleFullChefPreview, setToggleFullChefPreview] = useState(false);
@@ -44,7 +46,7 @@ const MainScreen = ({ setRoute, navLinks }) => {
         }
     }, [toggleFullChefPreview]);
 
-    const submitQuery = (e) => {
+    const submitQuery = (e: SyntheticEvent) => {
         e.preventDefault();
         tryCatch(async () => {
             const response = await axios.get(`/api/search?query=${searchQuery}&userId=${user._id}`);
@@ -58,7 +60,7 @@ const MainScreen = ({ setRoute, navLinks }) => {
         })();
     }
 
-    const handleClickOnCard = (chef) => {
+    const handleClickOnCard = (chef: IUser) => {
         setSelectedChef(chef);
         setToggleFullChefPreview(!toggleFullChefPreview);
         const overallRating = chef.reviews.reduce((acc, curr) => {
@@ -77,11 +79,11 @@ const MainScreen = ({ setRoute, navLinks }) => {
             <div className='main-screen'>
                 <div className="main-screen-header" />
                 <div className="main-screen-body">
-                    <NavBar setRoute={setRoute} user={user} setUser={setUser} />
-                    <Avatar user={user} setUser={setUser} navLinks={navLinks} />
+                    <NavBar user={user} setUser={setUser} />
+                    <Avatar navLinks={navLinks} />
                     <SearchBar className={searchBarCompleteClassName} searchQuery={searchQuery} setSearchQuery={setSearchQuery} submitQuery={submitQuery} />
                     <SearchResultsContext.Provider value={{ handleClickOnCard }}>
-                        {searchResults && searchResults.length > 0 && <SearchResults user={user} searchResults={searchResults} />}
+                        {searchResults && searchResults.length > 0 && <SearchResults searchResults={searchResults} />}
                     </SearchResultsContext.Provider>
                 </div>
             </div>

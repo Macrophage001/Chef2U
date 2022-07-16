@@ -7,14 +7,14 @@ const { tryCatch } = require('../helper/util');
 const passwordValidator = {
     bcryptValidator: (hash) => {
         return async (userPassword) => {
-            return await bcrypt.compare(userPassword, hash);
+            return await bcrypt.compareSync(userPassword, hash);
         }
     }
 }
 
 const loginUser = (req, res) => {
     tryCatch(async () => {
-        const user = await User.findOneAndUpdate({ userName: req.body.userName }, { $set: { isLoggedIn: true } });
+        const user = await User.findOne({ userName: req.body.userName });
         if (!user) {
             res.status(401).send('Invalid email or password');
             return;
@@ -25,6 +25,9 @@ const loginUser = (req, res) => {
                 return;
             } else {
                 req.session.user = user;
+                user.isLoggedIn = true;
+                await user.save();
+
                 res.send(user);
             }
         }

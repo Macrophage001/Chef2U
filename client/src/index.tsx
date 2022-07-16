@@ -12,15 +12,16 @@ import Logout from './components/logout';
 import CheckoutScreen from './components/pages/checkoutScreen';
 import OrderHistoryScreen from './components/pages/orderHistoryScreen';
 import AccountDetailsScreen from './components/pages/accountDetailsScreen';
+import { NavLink } from './types/navLink';
 
-const avatarNavLinks = [
+const avatarNavLinks: NavLink[] = [
   { name: 'Account', link: '/account' },
   { name: 'Orders', link: '/account/orders' },
   { name: 'Cart', link: '/account/cart' },
   { name: 'Logout', link: '/logout' }
 ];
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <React.StrictMode>
     <BrowserRouter>

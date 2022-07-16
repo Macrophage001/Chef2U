@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, createContext } from 'react'
+import React, { useState, useEffect, useContext, createContext, SetStateAction, SyntheticEvent } from 'react'
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 
@@ -11,26 +11,37 @@ import '../../styles/button.css';
 
 import { tryCatch, ArrayExtension, currencyFormat } from '../../helper/util';
 import { useLoggedInUser } from '../../hooks/useLoggedInUser';
+import { INavLinks } from '../../interfaces/INavLinks';
+
 
 import Button from '../ui/button';
 import Card from '../ui/card';
 import { tryAddToStorage } from '../../helper/storageHelper';
+import { IRecipeCartItem, IUser } from '../../interfaces/IUser';
 
-const UserContext = createContext({});
+interface IUserContext {
+    user: IUser;
+    cart: IRecipeCartItem[];
+}
 
-const CheckoutDisplayOrders = ({ setUser }) => {
+const UserContext = createContext({} as IUserContext);
+
+const CheckoutDisplayOrders: React.FC<{ setUser: React.Dispatch<SetStateAction<IUser>> }> = ({ setUser }) => {
     const { user, cart } = useContext(UserContext);
 
-    const updateItemCount = (item, add) => {
+    const updateItemCount = (item: IRecipeCartItem, add: number) => {
         tryCatch(async () => {
             let newCount = item.count + add;
-            let newCart = new ArrayExtension(...cart);
+            // let newCart = new ArrayExtension(...cart);
+            let newCart = [...cart];
             if (newCount < 1) {
                 newCount = 0;
                 const index = newCart.indexOf(item);
-                newCart = newCart.remove(index);
+                // newCart = newCart.remove(index);
+                newCart.splice(index, 1);
             } else {
-                newCart = new ArrayExtension(...cart);
+                newCart = [...cart];
+                // newCart = new ArrayExtension(...cart);
                 newCart.forEach(i => {
                     if (i.name === item.name && i.chefId === item.chefId) {
                         i.count = newCount;
@@ -72,8 +83,21 @@ const CheckoutDisplayOrders = ({ setUser }) => {
     )
 }
 
+type SummaryType = {
+    cartTotal: number;
+    serviceFee: number;
+    cleanUpService: number;
+    totalBeforeTax: number;
+    tax: number;
+    totalWithTax: number;
+};
 
-const OrderSummaryItems = ({ cart, summary: { totalBeforeTax, cleanUpService, serviceFee } }) => {
+interface ISummaryItemsProps {
+    cart: IRecipeCartItem[];
+    summary: SummaryType;
+}
+
+const OrderSummaryItems: React.FC<ISummaryItemsProps> = ({ cart, summary: { totalBeforeTax, cleanUpService, serviceFee } }) => {
     return (
         <div className='checkout-display-order-summary-items'>
             {cart && cart.length > 0 && (
@@ -96,7 +120,14 @@ const OrderSummaryItems = ({ cart, summary: { totalBeforeTax, cleanUpService, se
     );
 }
 
-const CheckoutDisplaySummary = ({ setUser, cart, setOrderPlaced, setShowOrderStatus }) => {
+interface ISummaryProps {
+    setUser: React.Dispatch<SetStateAction<IUser>>;
+    cart: IRecipeCartItem[];
+    setOrderPlaced: React.Dispatch<React.SetStateAction<boolean>>;
+    setShowOrderStatus: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const CheckoutDisplaySummary: React.FC<ISummaryProps> = ({ setUser, cart, setOrderPlaced, setShowOrderStatus }) => {
     const { user } = useContext(UserContext);
     const [cartLength, setCartLength] = useState(0);
 
@@ -172,10 +203,15 @@ const CheckoutDisplaySummary = ({ setUser, cart, setOrderPlaced, setShowOrderSta
     )
 }
 
-const OrderStatus = ({ orderPlaced, setShowOrderStatus }) => {
+interface IOrderStatusProps {
+    orderPlaced: boolean;
+    setShowOrderStatus: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const OrderStatus: React.FC<IOrderStatusProps> = ({ orderPlaced, setShowOrderStatus }) => {
     let messageCard = null;
 
-    const handleClose = (e) => {
+    const handleClose = (e: SyntheticEvent) => {
         setShowOrderStatus(false);
     };
 
@@ -202,8 +238,8 @@ const OrderStatus = ({ orderPlaced, setShowOrderStatus }) => {
     return messageCard;
 }
 
-const CheckoutScreen = ({ navLinks }) => {
-    const [user, setUser] = useState({});
+const CheckoutScreen: React.FC<INavLinks> = ({ navLinks }) => {
+    const [user, setUser] = useState({} as IUser);
     const [orderPlaced, setOrderPlaced] = useState(false);
     const [showOrderStatus, setShowOrderStatus] = useState(false);
 
@@ -219,7 +255,7 @@ const CheckoutScreen = ({ navLinks }) => {
                 <div className="main-screen-header" />
                 <div className="main-screen-body">
                     <NavBar user={user} setUser={setUser} />
-                    <Avatar user={user} navLinks={navLinks} />
+                    <Avatar navLinks={navLinks} />
                     <div className='checkout'>
                         <UserContext.Provider value={{ user, cart: user.cart }}>
                             <CheckoutDisplayOrders setUser={setUser} />

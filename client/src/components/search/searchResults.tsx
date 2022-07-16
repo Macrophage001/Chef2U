@@ -7,8 +7,18 @@ import Card from '../ui/card';
 import { useGetAvatar } from '../../hooks/useGetAvatar';
 
 import { SearchResultsContext } from '../../context/searchResultsContext';
+import { IUser } from '../../interfaces/IUser';
 
-const SearchResult = ({ chef, ...props }) => {
+interface ISearchResultsProps {
+    searchResults: IUser[];
+}
+
+interface ISearchResult {
+    chef: IUser;
+    [x: string]: any;
+}
+
+const SearchResult: React.FC<ISearchResult> = ({ chef, ...props }) => {
     const [avatar, setAvatar] = useState('');
 
     const avatarURI = useGetAvatar(chef);
@@ -29,10 +39,10 @@ const SearchResult = ({ chef, ...props }) => {
     )
 }
 
-const SearchResults = ({ searchResults, }) => {
+const SearchResults: React.FC<ISearchResultsProps> = ({ searchResults, }) => {
     const { handleClickOnCard } = useContext(SearchResultsContext);
 
-    const handleAnimationEnd = (e) => {
+    const handleAnimationEnd = (e: any) => {
         e.target.classList.remove('search-result-fade-in');
     }
 

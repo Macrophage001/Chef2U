@@ -11,11 +11,17 @@ import { currencyFormat } from '../../helper/util';
 import { OrderContext } from '../../context/orderContext';
 import { useGetAvatar } from '../../hooks/useGetAvatar';
 import { tryCatch } from '../../helper/util';
+import { IRecipeCartItem, IUser } from '../../interfaces/IUser';
 
-const RecipeCard = ({ chef, recipe }) => {
+interface IRecipeCardProps {
+    chef: IUser;
+    recipe: IRecipeCartItem;
+}
+
+const RecipeCard: React.FC<IRecipeCardProps> = ({ chef, recipe }) => {
     const { user, setUser } = useContext(OrderContext);
 
-    const onOrderProduct = (chef, product) => {
+    const onOrderProduct = (chef: IUser, product: IRecipeCartItem) => {
         tryCatch(async () => {
             const response = await axios.post('/api/cart', {
                 item: product,
@@ -47,7 +53,7 @@ const RecipeCard = ({ chef, recipe }) => {
                         <h2>Ingredients</h2>
                         <div>
                             <ul>
-                                {recipe.ingredients.map((ingredient, index) => {
+                                {recipe.ingredients.map((ingredient: string, index: number) => {
                                     return <li key={index}><p>{ingredient}</p></li>;
                                 })}
                             </ul>
@@ -59,20 +65,28 @@ const RecipeCard = ({ chef, recipe }) => {
     );
 }
 
+interface IChefRecipesProps {
+    chef: IUser;
+}
 
-const ChefRecipes = ({ chef }) => {
+const ChefRecipes: React.FC<IChefRecipesProps> = ({ chef }) => {
     const { recipes } = chef;
     return (
         <div className="full-chef-preview-card-recipes">
             {recipes.map((recipe, index) => {
-                return <RecipeCard key={index} chef={chef} recipe={recipe} />;
+                return <RecipeCard key={index} chef={chef} recipe={recipe as IRecipeCartItem} />;
             })}
         </div>
     );
 }
 
+interface IFullChefPreviewCardProps {
+    chef: IUser;
+    overallRating: number;
+    handleClickOnCard: (chef: IUser) => void;
+}
 
-const FullChefPreview = ({ chef, overallRating, handleClickOnCard }) => {
+const FullChefPreview: React.FC<IFullChefPreviewCardProps> = ({ chef, overallRating, handleClickOnCard }) => {
     const [avatar, setAvatar] = useState('');
 
     const avatarURI = useGetAvatar(chef);
@@ -80,7 +94,7 @@ const FullChefPreview = ({ chef, overallRating, handleClickOnCard }) => {
         setAvatar(avatarURI);
     }, [chef, avatarURI]);
 
-    const calculateRating = (rating) => {
+    const calculateRating = (rating: number) => {
         let stars = []
         for (let i = 0; i < rating; i++) {
             stars.push(<FontAwesomeIcon className='rating-star' key={i} icon={faStar} />);
@@ -92,7 +106,7 @@ const FullChefPreview = ({ chef, overallRating, handleClickOnCard }) => {
         return stars;
     }
 
-    const handleClick = (e) => {
+    const handleClick = (e: React.MouseEvent) => {
         if (e.target === e.currentTarget) {
             handleClickOnCard(chef);
         }

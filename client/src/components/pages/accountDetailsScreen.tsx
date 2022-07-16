@@ -9,16 +9,19 @@ import { tryAddToStorage } from '../../helper/storageHelper';
 
 import '../../styles/inputs.css';
 import '../../styles/accountDetailsScreen.css';
+import { INavLinks } from '../../interfaces/INavLinks';
+import { IUser } from '../../interfaces/IUser';
+import { IUserState } from '../../interfaces/IUserState';
 
-const AccountDetailsUpdateForm = ({ user, setUser }) => {
+const AccountDetailsUpdateForm: React.FC<IUserState> = ({ user, setUser }) => {
     const [updatedUser, setUpdatedUser] = useState(user);
 
-    const handleChange = (e) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setUpdatedUser({ ...updatedUser, [name]: value });
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         setUser(updatedUser);
     }
@@ -48,8 +51,8 @@ const AccountDetailsUpdateForm = ({ user, setUser }) => {
     )
 }
 
-const AccountDetailsScreen = ({ navLinks }) => {
-    const [user, setUser] = useState({});
+const AccountDetailsScreen: React.FC<INavLinks> = ({ navLinks }) => {
+    const [user, setUser] = useState({} as IUser);
     const loggedInUser = useLoggedInUser(useLocation());
     useEffect(() => {
         setUser(loggedInUser);
@@ -63,7 +66,7 @@ const AccountDetailsScreen = ({ navLinks }) => {
             <div className="main-screen-header" />
             <div className="main-screen-body">
                 <NavBar user={user} setUser={setUser} />
-                <Avatar user={user} navLinks={navLinks} />
+                <Avatar navLinks={navLinks} />
                 <AccountDetailsUpdateForm user={user} setUser={setUser} />
             </div>
         </div>

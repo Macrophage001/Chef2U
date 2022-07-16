@@ -1,5 +1,10 @@
-export const tryCatch = (fn, fallback = (err) => console.error(err)) => {
-    return (...args) => {
+import * as bcrypt from 'bcryptjs';
+
+type TryCatchCallback = (...args: any[]) => any;
+type TryCatchFunction = (...args: any[]) => any;
+
+export const tryCatch = (fn: TryCatchCallback, fallback = (err: unknown) => console.error(err)): TryCatchFunction => {
+    return (...args: any[]) => {
         try {
             return fn(...args)
         } catch (e) {
@@ -8,13 +13,18 @@ export const tryCatch = (fn, fallback = (err) => console.error(err)) => {
     }
 }
 
-export const generateUUID = (item) => {
+export const generateUUID = (item: any): string => {
     return `${item.toString()}-${Date.now}`
 }
 
+export const encryptPassword = (password: string): any => {
+    const salt = bcrypt.genSaltSync(10);
+    return bcrypt.hashSync(password, salt);
+}
+
 export class ArrayExtension extends Array {
-    remove(...indices) {
-        const removeArrayElements = (arr) => {
+    remove(...indices: any[]): any[] {
+        const removeArrayElements = (arr: any[]) => {
             let copyArr = arr.slice();
             for (let i = 0; i < indices.length; i++) {
                 copyArr.splice(indices[i], 1);
@@ -23,8 +33,8 @@ export class ArrayExtension extends Array {
         }
         return removeArrayElements(this);
     }
-    deepCopy() {
-        const deepCopyArray = (arr) => {
+    deepCopy(): any[] {
+        const deepCopyArray = (arr: any[]): any[] => {
             let newArr = [];
             for (let i = 0; i < arr.length; i++) {
                 if (typeof arr[i] === 'object') {
@@ -45,23 +55,5 @@ export const currencyFormat = (new Intl.NumberFormat('en-US', {
     minimumFractionDigits: 2
 })).format;
 
-export const trace = (message, fn) => {
-    console.log(message);
-    return fn();
-}
-
-export const getAvatar = (user, onAvatarFound) => {
-    const axios = require('axios');
-    tryCatch(async () => {
-        if (user) {
-            // console.log('User received: ', user);
-            const response = await axios.get(`/api/account/avatar?userId=${user._id}`);
-            console.log("Avatar Response Data: ", response.data);
-            onAvatarFound(response.data);
-            // onAvatarFound(response.data);
-        }
-    })();
-}
-
-export const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+export const getRandomInt = (min: number, max: number): number => Math.floor(Math.random() * (max - min + 1)) + min;
 

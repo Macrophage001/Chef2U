@@ -4,9 +4,10 @@ import axios from 'axios'
 
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useLoggedInUser } from '../hooks/useLoggedInUser';
+import { IUser } from '../interfaces/IUser';
 
 const Logout = () => {
-    const [user, setUser] = useState({});
+    const [user, setUser] = useState({} as IUser);
     const loggedInUser = useLoggedInUser(useLocation());
 
     useEffect(() => {
@@ -25,6 +26,12 @@ const Logout = () => {
             })();
         }
     }, [user]);
+
+    return (
+        <div className="logout">
+            <p>Logging out...</p>
+        </div>
+    )
 }
 
 export default Logout

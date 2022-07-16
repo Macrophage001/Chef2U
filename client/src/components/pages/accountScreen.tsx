@@ -10,8 +10,17 @@ import { tryCatch } from '../../helper/util';
 
 import axios from 'axios';
 import { useLoggedInUser } from '../../hooks/useLoggedInUser';
+import { INavLinks } from '../../interfaces/INavLinks';
+import { IUser } from '../../interfaces/IUser';
 
-const UploadAvatar = ({ handleOnSubmit, handleOnChange }) => {
+
+interface IUploadAvatarProps {
+    handleOnSubmit: (e: React.FormEvent) => void;
+    handleOnChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+
+const UploadAvatar: React.FC<IUploadAvatarProps> = ({ handleOnSubmit, handleOnChange }) => {
     return (
         <form onSubmit={handleOnSubmit} method="post" encType="multipart/form-data">
             <input type="file" name="profile-img" onChange={handleOnChange} />
@@ -20,9 +29,10 @@ const UploadAvatar = ({ handleOnSubmit, handleOnChange }) => {
     )
 }
 
-const AccountScreen = ({ navLinks }) => {
-    const [user, setUser] = useState({});
-    const [profileImg, setProfileImg] = useState('');
+
+const AccountScreen: React.FC<INavLinks> = ({ navLinks }) => {
+    const [user, setUser] = useState({} as IUser);
+    const [profileImg, setProfileImg] = useState({} as File);
 
     const loggedInUser = useLoggedInUser(useLocation());
 
@@ -32,7 +42,7 @@ const AccountScreen = ({ navLinks }) => {
         }
     }, [loggedInUser, user]);
 
-    const handleOnSubmit = (e) => {
+    const handleOnSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         tryCatch(async () => {
             const formData = new FormData();
@@ -41,8 +51,10 @@ const AccountScreen = ({ navLinks }) => {
         })();
     }
 
-    const handleOnChange = (e) => {
-        setProfileImg(e.target.files[0]);
+    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            setProfileImg(e.target.files[0]);
+        }
     }
 
     return (
@@ -51,7 +63,7 @@ const AccountScreen = ({ navLinks }) => {
             <div className="account-screen-body">
                 <UploadAvatar handleOnChange={handleOnChange} handleOnSubmit={handleOnSubmit} />
                 <NavBar user={user} setUser={setUser} />
-                <Avatar user={user} navLinks={navLinks} />
+                <Avatar navLinks={navLinks} />
                 <AccountOptions />
             </div>
         </div>
