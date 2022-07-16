@@ -16,9 +16,10 @@ import FullChefPreview from '../ui/fullChefPreviewCard';
 
 import '../../styles/mainScreen.css';
 import '../../styles/searchResults.css';
+import { IUser } from '../../interfaces/IUser';
 
-const MainScreen = ({ setRoute, navLinks }) => {
-    const [user, setUser] = useState({});
+const MainScreen = ({ navLinks }) => {
+    const [user, setUser] = useState({} as IUser);
     const [selectedChef, setSelectedChef] = useState({});
     const [overallRating, setOverallRating] = useState(0);
 
@@ -78,11 +79,11 @@ const MainScreen = ({ setRoute, navLinks }) => {
             <div className='main-screen'>
                 <div className="main-screen-header" />
                 <div className="main-screen-body">
-                    <NavBar setRoute={setRoute} user={user} setUser={setUser} />
-                    <Avatar user={user} setUser={setUser} navLinks={navLinks} />
+                    <NavBar className='' user={user} setUser={setUser} />
+                    <Avatar navLinks={navLinks} />
                     <SearchBar className={searchBarCompleteClassName} searchQuery={searchQuery} setSearchQuery={setSearchQuery} submitQuery={submitQuery} />
                     <SearchResultsContext.Provider value={{ handleClickOnCard }}>
-                        {searchResults && searchResults.length > 0 && <SearchResults user={user} searchResults={searchResults} />}
+                        {searchResults && searchResults.length > 0 && <SearchResults searchResults={searchResults} />}
                     </SearchResultsContext.Provider>
                 </div>
             </div>

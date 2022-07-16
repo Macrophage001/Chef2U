@@ -7,8 +7,15 @@ import { useLoggedInUser } from '../../hooks/useLoggedInUser';
 
 import '../../styles/avatar.css';
 import { useGetAvatar } from '../../hooks/useGetAvatar';
+import { IUser } from '../../interfaces/IUser';
 
-const AvatarMenu = ({ user, setUser, navLinks }) => {
+interface AvatarMenuProps {
+    user: IUser;
+    setUser: (user: IUser) => void;
+    navLinks: any
+}
+
+const AvatarMenu: React.FC<AvatarMenuProps> = ({ user, setUser, navLinks }) => {
     return (
         <div className="avatar-menu">
             <div className="avatar-preview-info">
@@ -23,7 +30,7 @@ const AvatarMenu = ({ user, setUser, navLinks }) => {
 
 
 const Avatar = ({ navLinks }) => {
-    const [user, setUser] = useState({});
+    const [user, setUser] = useState({} as IUser);
     const [avatar, setAvatar] = useState('');
 
     const loggedInUser = useLoggedInUser(useLocation());

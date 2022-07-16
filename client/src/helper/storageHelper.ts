@@ -6,13 +6,13 @@ import { tryCatch } from "./util";
  * @param {string} key 
  * @returns any | undefined
  */
-export const tryGetFromStorage = (storageType, key) => {
+export const tryGetFromStorage = (storageType: string, key: string): any => {
     return tryCatch(() => {
         switch (storageType) {
             case 'session':
-                return JSON.parse(sessionStorage.getItem(key));
+                return JSON.parse(sessionStorage.getItem(key) || '{}');
             case 'local':
-                return JSON.parse(localStorage.getItem(key));
+                return JSON.parse(localStorage.getItem(key) || '{}');
             default:
                 return undefined;
         }
@@ -27,7 +27,7 @@ export const tryGetFromStorage = (storageType, key) => {
  * @param {string} key 
  * @param {*} value
  */
-export const tryAddToStorage = (storageType, key, value) => {
+export const tryAddToStorage = (storageType: string, key: string, value: any): void => {
     return tryCatch(() => {
         switch (storageType) {
             case 'session':
@@ -48,7 +48,7 @@ export const tryAddToStorage = (storageType, key, value) => {
  * @param {string} key 
  * @returns 
  */
-export const tryRemoveFromStorage = (storageType, key) => {
+export const tryRemoveFromStorage = (storageType: string, key: string): void => {
     return tryCatch(() => {
         switch (storageType) {
             case 'session':
@@ -68,7 +68,7 @@ export const tryRemoveFromStorage = (storageType, key) => {
  * @param {string} storageType 
  * @returns 
  */
-export const tryClearStorage = (storageType) => {
+export const tryClearStorage = (storageType: string): void => {
     return tryCatch(() => {
         switch (storageType) {
             case 'session':

@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { tryCatch } from '../helper/util';
 import { tryAddToStorage, tryGetFromStorage } from '../helper/storageHelper';
+import { IUser } from '../interfaces/IUser';
 
-export const useLoggedInUser = (location) => {
-    const [user, setUser] = useState({});
+export const useLoggedInUser = (location): IUser => {
+    const [user, setUser] = useState({} as IUser);
 
     useEffect(() => {
         tryCatch(async () => {
@@ -12,7 +13,7 @@ export const useLoggedInUser = (location) => {
             if (sessionUser._id !== undefined) {
                 setUser(sessionUser);
             } else {
-                let user = {};
+                let user = {} as IUser;
                 if (!location.state) {
                     const response = await axios.get('/api/auth/login');
                     if (response.data) {

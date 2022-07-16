@@ -7,9 +7,15 @@ import AuthenticationScreen from './authenticationScreen';
 import { tryCatch } from '../../helper/util';
 
 import '../../styles/introScreen.css';
+import { IUser } from '../../interfaces/IUser';
 
-const IntroScreen = ({ onAnimationEnd, navLinks }) => {
-    const [user, setUser] = useState(undefined);
+interface IntroScreenProps {
+    onAnimationEnd: (e: any) => void;
+    navLinks: any;
+}
+
+const IntroScreen: React.FC<IntroScreenProps> = ({ onAnimationEnd, navLinks }) => {
+    const [user, setUser] = useState({} as IUser);
     const [component, setComponent] = useState(<></>);
     const [className, setClassName] = useState('');
 
@@ -24,7 +30,7 @@ const IntroScreen = ({ onAnimationEnd, navLinks }) => {
 
     const unlockWebPage = () => {
         if (user) {
-            setComponent(<MainScreen user={user} navLinks={navLinks} />);
+            setComponent(<MainScreen navLinks={navLinks} />);
         } else {
             setComponent(<AuthenticationScreen />);
         }

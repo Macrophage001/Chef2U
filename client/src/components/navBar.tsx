@@ -1,9 +1,16 @@
-import React from 'react'
+import React, { Dispatch, SetStateAction } from 'react'
 import { Link } from 'react-router-dom';
+import { IUser } from '../interfaces/IUser';
 
 import '../styles/navBar.css';
 
-const NavBar = ({ user, setUser, className }) => {
+interface NavBarProps {
+    user: IUser;
+    className: string;
+    setUser: Dispatch<SetStateAction<{}>>;
+}
+
+const NavBar: React.FC<NavBarProps> = ({ user, setUser, className }) => {
     return (
         <nav className={`nav-links ${className}`}>
             <ul>

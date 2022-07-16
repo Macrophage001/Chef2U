@@ -10,7 +10,7 @@ export const useGetAvatar = (user, deps = []) => {
     const [avatar, setAvatar] = useState('');
 
     useEffect(() => {
-        const sessionStorage = tryGetFromStorage(singleAvatarKey(user));
+        const sessionStorage = tryGetFromStorage('session', singleAvatarKey(user));
         if (sessionStorage) {
             const decodedAvatar = JSON.parse(sessionStorage);
             setAvatar(`data:${decodedAvatar.contentType};base64,${Buffer.from(decodedAvatar.data, 'base64').toString('base64')}`);

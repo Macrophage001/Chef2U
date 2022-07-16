@@ -11,11 +11,12 @@ import { currencyFormat } from '../../helper/util';
 import { OrderContext } from '../../context/orderContext';
 import { useGetAvatar } from '../../hooks/useGetAvatar';
 import { tryCatch } from '../../helper/util';
+import { IUser } from '../../interfaces/IUser';
 
 const RecipeCard = ({ chef, recipe }) => {
     const { user, setUser } = useContext(OrderContext);
 
-    const onOrderProduct = (chef, product) => {
+    const onOrderProduct = (chef: IUser, product: any) => {
         tryCatch(async () => {
             const response = await axios.post('/api/cart', {
                 item: product,
@@ -81,7 +82,7 @@ const FullChefPreview = ({ chef, overallRating, handleClickOnCard }) => {
     }, [chef, avatarURI]);
 
     const calculateRating = (rating) => {
-        let stars = []
+        let stars: JSX.Element[] = [];
         for (let i = 0; i < rating; i++) {
             stars.push(<FontAwesomeIcon className='rating-star' key={i} icon={faStar} />);
         }

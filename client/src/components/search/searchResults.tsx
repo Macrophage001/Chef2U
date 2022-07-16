@@ -1,14 +1,24 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect, MouseEvent, AnimationEvent, ComponentPropsWithRef } from 'react'
 
 import Specialties from './specialties';
 import Recipe from './recipe';
 import Card from '../ui/card';
 
 import { useGetAvatar } from '../../hooks/useGetAvatar';
-
 import { SearchResultsContext } from '../../context/searchResultsContext';
+import { IUser, Recipe as RecipeInterface } from '../../interfaces/IUser';
 
-const SearchResult = ({ chef, ...props }) => {
+interface SearchResult {
+    key: number,
+    chef: IUser;
+    onClick: (e: MouseEvent) => void;
+    onAnimationEnd: (e: AnimationEvent) => void;
+}
+interface SearchResultsProps {
+    searchResults: IUser[];
+}
+
+const SearchResult: React.FC<SearchResult> = ({ chef, ...props }) => {
     const [avatar, setAvatar] = useState('');
 
     const avatarURI = useGetAvatar(chef);
@@ -21,15 +31,15 @@ const SearchResult = ({ chef, ...props }) => {
         <Card className='search-result search-result-fade-in' {...props}>
             <img className='chef-image' src={avatar ? avatar : "\\images\\chef.png"} alt="avatar" />
             <h2>{`${chef.firstName} ${chef.lastName}`}</h2>
-            <Specialties chef={chef} />
+            <Specialties className='' chef={chef} />
             <div className="chef-recipes">
-                {chef.recipes && chef.recipes.map((recipe, index) => <Recipe key={index} recipe={recipe} />)}
+                {chef.recipes && chef.recipes.map((recipe: RecipeInterface, index: React.Key | null | undefined) => <Recipe key={index} recipe={recipe} />)}
             </div>
         </Card>
     )
 }
 
-const SearchResults = ({ searchResults, }) => {
+const SearchResults: React.FC<SearchResultsProps> = ({ searchResults }) => {
     const { handleClickOnCard } = useContext(SearchResultsContext);
 
     const handleAnimationEnd = (e) => {

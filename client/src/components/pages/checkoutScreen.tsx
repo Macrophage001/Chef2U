@@ -15,13 +15,18 @@ import { useLoggedInUser } from '../../hooks/useLoggedInUser';
 import Button from '../ui/button';
 import Card from '../ui/card';
 import { tryAddToStorage } from '../../helper/storageHelper';
+import { CartItem, IUser } from '../../interfaces/IUser';
 
-const UserContext = createContext({});
+interface IUserContext {
+    user: IUser;
+    cart: CartItem[];
+}
+const UserContext = createContext({} as IUserContext);
 
 const CheckoutDisplayOrders = ({ setUser }) => {
     const { user, cart } = useContext(UserContext);
 
-    const updateItemCount = (item, add) => {
+    const updateItemCount = (item: CartItem, add: number) => {
         tryCatch(async () => {
             let newCount = item.count + add;
             let newCart = new ArrayExtension(...cart);
@@ -174,7 +179,7 @@ const CheckoutDisplaySummary = ({ setUser, cart, setOrderPlaced, setShowOrderSta
 }
 
 const OrderStatus = ({ orderPlaced, setShowOrderStatus }) => {
-    let messageCard = null;
+    let messageCard: JSX.Element;
 
     const handleClose = (e) => {
         setShowOrderStatus(false);
@@ -220,8 +225,8 @@ const CheckoutScreen = ({ navLinks }) => {
             <div className='main-screen'>
                 <div className="main-screen-header" />
                 <div className="main-screen-body">
-                    <NavBar user={user} setUser={setUser} />
-                    <Avatar user={user} navLinks={navLinks} />
+                    <NavBar setUser={setUser} />
+                    <Avatar navLinks={navLinks} />
                     <div className='checkout'>
                         <UserContext.Provider value={{ user, cart: user.cart }}>
                             <CheckoutDisplayOrders setUser={setUser} />
