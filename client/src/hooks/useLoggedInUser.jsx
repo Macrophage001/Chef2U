@@ -12,17 +12,17 @@ export const useLoggedInUser = (location) => {
             if (sessionUser._id !== undefined) {
                 setUser(sessionUser);
             } else {
-                let user = {};
+                let foundUser = {};
                 if (!location.state) {
                     const response = await axios.get('/api/auth/login');
                     if (response.data) {
-                        user = response.data;
+                        foundUser = response.data;
                     }
                 } else {
-                    user = location.state.user;
+                    foundUser = location.state.user;
                 }
-                setUser(user);
-                tryAddToStorage('session', 'user', user);
+                setUser(foundUser);
+                tryAddToStorage('session', 'user', foundUser);
             }
         })();
     }, []);

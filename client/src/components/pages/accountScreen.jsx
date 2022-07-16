@@ -49,7 +49,7 @@ const AccountScreen = ({ navLinks }) => {
         <div className='account-screen'>
             <div className="account-screen-header" />
             <div className="account-screen-body">
-                {/* <UploadAvatar handleOnChange={handleOnChange} handleOnSubmit={handleOnSubmit} /> */}
+                <UploadAvatar handleOnChange={handleOnChange} handleOnSubmit={handleOnSubmit} />
                 <NavBar user={user} setUser={setUser} />
                 <Avatar user={user} navLinks={navLinks} />
                 <AccountOptions />

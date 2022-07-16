@@ -40,7 +40,7 @@ const Avatar = ({ navLinks }) => {
         <div className="avatar">
             <AvatarMenu user={user} setUser={setUser} navLinks={navLinks} />
             <div className="avatar-icon">
-                <img src={avatar ? avatar : "\\images\\user.png"} alt="avatar" />
+                <img src={avatar !== '' ? avatar : "\\images\\user.png"} alt="avatar" />
             </div>
         </div>
     )

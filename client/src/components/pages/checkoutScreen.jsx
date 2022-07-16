@@ -96,7 +96,6 @@ const OrderSummaryItems = ({ cart, summary: { totalBeforeTax, cleanUpService, se
     );
 }
 
-
 const CheckoutDisplaySummary = ({ setUser, cart, setOrderPlaced, setShowOrderStatus }) => {
     const { user } = useContext(UserContext);
     const [cartLength, setCartLength] = useState(0);
@@ -209,7 +208,6 @@ const CheckoutScreen = ({ navLinks }) => {
     const [showOrderStatus, setShowOrderStatus] = useState(false);
 
     const loggedInUser = useLoggedInUser(useLocation());
-
     useEffect(() => {
         setUser(loggedInUser);
     }, [loggedInUser]);

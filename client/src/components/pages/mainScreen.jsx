@@ -42,7 +42,6 @@ const MainScreen = ({ setRoute, navLinks }) => {
         } else {
             document.body.style.overflow = 'auto';
         }
-
     }, [toggleFullChefPreview]);
 
     const submitQuery = (e) => {

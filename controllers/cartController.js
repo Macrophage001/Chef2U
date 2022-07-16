@@ -63,4 +63,13 @@ const placeOrder = (req, res) => {
     })();
 }
 
+const getArtistImages = (req, res) => {
+    tryCatch(async () => {
+        const { userId } = req.body;
+        const user = await User.findById(userId);
+        // const { images } = user;
+        res.send(user.images);
+    })();
+}
+
 module.exports = { updateCart, addToCart, placeOrder };

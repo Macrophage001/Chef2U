@@ -1,27 +1,27 @@
 const mongooose = require('mongoose');
 
-const RecipesSchema = new mongooose.Schema({
-    name: String,
-    ingredients: [String],
-    steps: [String],
-    image: String,
-    category: String,
-});
+// const RecipesSchema = new mongooose.Schema({
+//     name: String,
+//     ingredients: [String],
+//     steps: [String],
+//     image: String,
+//     category: String,
+// });
 
-const CartItemSchema = new mongooose.Schema({
-    item: {
-        name: String,
-        image: String,
-        price: Number,
-    },
-    quantity: Number,
-});
+// const CartItemSchema = new mongooose.Schema({
+//     item: {
+//         name: String,
+//         image: String,
+//         price: Number,
+//     },
+//     quantity: Number,
+// });
 
-const ReviewSchema = new mongooose.Schema({
-    rating: { type: Number, min: 1, max: 5, required: true, default: 5 },
-    comment: { type: String, required: true, default: 'No comment' },
-    user: String,
-});
+// const ReviewSchema = new mongooose.Schema({
+//     rating: { type: Number, min: 1, max: 5, required: true, default: 5 },
+//     comment: { type: String, required: true, default: 'No comment' },
+//     user: String,
+// });
 
 const UserSchema = new mongooose.Schema({
     userName: {
@@ -73,8 +73,45 @@ const UserSchema = new mongooose.Schema({
         type: Number,
         default: 0
     },
+    images: {
+        type: Array,
+        default: [
+            {
+                data: Buffer,
+                contentType: String,
+                name: String,
+                title: String,
+                date: String,
+                description: String,
+            },
+            {
+                data: Buffer,
+                contentType: String,
+                name: String,
+                title: String,
+                date: String,
+                description: String,
+            },
+            {
+                data: Buffer,
+                contentType: String,
+                name: String,
+                title: String,
+                date: String,
+                description: String,
+            },
+            {
+                data: Buffer,
+                contentType: String,
+                name: String,
+                title: String,
+                date: String,
+                description: String,
+            },
+        ]
+    },
     reviews: {
-        type: [ReviewSchema],
+        type: Array,
         default: [
             {
                 rating: 5,

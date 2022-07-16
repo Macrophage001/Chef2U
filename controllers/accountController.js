@@ -10,7 +10,12 @@ const uploadToDB = (req, res) => {
         const encodedImageData = {
             data: encodedImage,
             contentType: req.file.mimetype,
+            name: "avatar",
+            description: "avatar",
+            title: "avatar",
+            date: "avatar",
         };
+
         const response = await User.findByIdAndUpdate(req.query.userId, { $set: { avatar: encodedImageData } }, { new: true });
         res.send(response);
     })();

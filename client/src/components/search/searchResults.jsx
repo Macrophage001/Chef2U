@@ -19,7 +19,7 @@ const SearchResult = ({ chef, ...props }) => {
 
     return (
         <Card className='search-result search-result-fade-in' {...props}>
-            <img className='chef-image' src={avatar ? avatar : "\\images\\chef.png"} alt="avatar" />
+            <img className='chef-image' src={avatar !== '' ? avatar : "\\images\\chef.png"} alt="avatar" />
             <h2>{`${chef.firstName} ${chef.lastName}`}</h2>
             <Specialties chef={chef} />
             <div className="chef-recipes">
