@@ -59,7 +59,6 @@ const AccountScreen: React.FC<INavLinks> = ({ navLinks }) => {
         <div className='account-screen'>
             <div className="account-screen-header" />
             <div className="account-screen-body">
-                <UploadAvatar formRef={formRef} handleOnChange={handleOnChange} handleOnSubmit={handleOnSubmit} />
                 <NavBar user={user} setUser={setUser} />
                 <Avatar navLinks={navLinks} />
                 <AccountOptions />
