@@ -2,6 +2,7 @@
     display: flex;
     width: 100%;
     height: 60vh;
+    margin-top: 4rem;
 }
 
 .checkout-display-orders {
@@ -189,4 +190,18 @@
 
 .order-status-card p {
     text-align: center;
+}
+
+.blur-screen {
+    animation: blur-screen-fade-in 150ms ease-in-out forwards;
+}
+
+@keyframes blur-screen-fade-in {
+    0% {
+        filter: blur(0px);
+    }
+
+    100% {
+        filter: blur(2px);
+    }
 }

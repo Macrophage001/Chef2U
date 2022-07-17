@@ -1,14 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import { IUserState } from '../interfaces/IUserState';
+import { IUserState } from '../../interfaces/IUserState';
 
-import '../styles/navBar.css';
+import '../../styles/navBar.css';
 
 interface INavBarProps extends IUserState {
     className?: string;
 }
 
-const NavBar: React.FC<INavBarProps> = ({ user, setUser, className }) => {
+const NavBar: React.FC<INavBarProps> = ({ user, className }) => {
     return (
         <nav className={`nav-links ${className}`}>
             <ul>

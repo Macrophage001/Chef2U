@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, createContext, SetStateAction, 
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-import NavBar from '../navBar';
+import NavBar from '../ui/navBar';
 import Avatar from '../ui/avatar';
 
 import { tryCatch, currencyFormat } from '../../helper/util';

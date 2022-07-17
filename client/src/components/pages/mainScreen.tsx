@@ -13,7 +13,7 @@ import { INavLinks } from '../../interfaces/INavLinks';
 import Avatar from '../ui/avatar';
 import SearchBar from '../search/searchBar';
 import SearchResults from '../search/searchResults';
-import NavBar from '../navBar';
+import NavBar from '../ui/navBar';
 import FullChefPreview from '../ui/fullChefPreviewCard';
 
 import '../../styles/mainScreen.css';

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom';
 
-import NavBar from '../navBar'
+import NavBar from '../ui/navBar'
 import Avatar from '../ui/avatar'
 import Card from '../ui/card';
 import Button from '../ui/button';
@@ -20,19 +20,23 @@ const AccountDetailsScreen: React.FC<INavLinks> = ({ navLinks }) => {
 
     const updateableAccountOptions = [
         {
-            key: 'Username:',
+            key: 'userName',
+            name: 'User Name:',
             value: `${user.userName}`,
         },
         {
-            key: 'Email:',
+            key: 'email',
+            name: 'Email:',
             value: `${user.email}`,
         },
         {
-            key: 'Mobile Phone Number:',
+            key: 'mobilePhoneNumber',
+            name: 'Mobile Phone Number:',
             value: '+1 (202) 555-1212',
         },
         {
-            key: 'Profile Picture:',
+            key: 'avatar',
+            name: 'Profile Picture:',
             value: '',
         }
     ]
@@ -44,6 +48,10 @@ const AccountDetailsScreen: React.FC<INavLinks> = ({ navLinks }) => {
         tryAddToStorage('session', 'user', user);
     }, [user]);
 
+    const handleClick = () => {
+        console.log('clicked');
+    }
+
     return (
         <div className='main-screen'>
             <div className="main-screen-header" />
@@ -54,10 +62,10 @@ const AccountDetailsScreen: React.FC<INavLinks> = ({ navLinks }) => {
                     {updateableAccountOptions.map((option, index) => (
                         <Card className='updatable-account-option' key={index}>
                             <div className='updatable-account-option-data'>
-                                <h3>{option.key}</h3>
+                                <h3>{option.name}</h3>
                                 <p>{option.value}</p>
                             </div>
-                            <Button label='Edit' />
+                            <Button label='Edit' onClick={handleClick} />
                         </Card>
                     ))}
                 </div>

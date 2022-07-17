@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import Avatar from '../ui/avatar';
 import AccountOptions from '../account/accountOptions';
-import NavBar from '../navBar';
+import NavBar from '../ui/navBar';
 
 import { tryCatch } from '../../helper/util';
 import { useLoggedInUser } from '../../hooks/useLoggedInUser';

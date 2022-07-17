@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, createContext } from 'react'
 import { useLocation } from 'react-router-dom';
 
-import NavBar from '../navBar';
+import NavBar from '../ui/navBar';
 import Avatar from '../ui/avatar';
 
 import '../../styles/mainScreen.css';

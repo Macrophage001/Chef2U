@@ -4,16 +4,15 @@ import { Link } from 'react-router-dom';
 import { generateUUID } from '../../helper/util';
 
 import { useLoggedInUser } from '../../hooks/useLoggedInUser';
-
 import { useGetAvatar } from '../../hooks/useGetAvatar';
-import { NavLink } from '../../types/navLink';
+
 import { IUser } from '../../interfaces/IUser';
 import { IUserState } from '../../interfaces/IUserState';
+import { INavLinks } from '../../interfaces/INavLinks';
 
 import '../../styles/avatar.css';
-interface AvatarMenuProps extends IUserState {
-    navLinks: NavLink[];
-}
+
+interface AvatarMenuProps extends IUserState, INavLinks { }
 
 const AvatarMenu: React.FC<AvatarMenuProps> = ({ user, setUser, navLinks }) => {
     return (
@@ -28,11 +27,7 @@ const AvatarMenu: React.FC<AvatarMenuProps> = ({ user, setUser, navLinks }) => {
     )
 }
 
-interface IAvatarProps {
-    navLinks: NavLink[];
-}
-
-const Avatar: React.FC<IAvatarProps> = ({ navLinks }) => {
+const Avatar: React.FC<INavLinks> = ({ navLinks }) => {
     const [user, setUser] = useState({} as IUser);
     const [avatar, setAvatar] = useState('');
 
