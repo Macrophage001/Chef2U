@@ -9,13 +9,21 @@
     margin: 0;
 }
 
-.form-group {
+.updatable-account-options {
+    margin-top: 4rem;
+}
+
+.updatable-account-option {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     align-items: center;
-    justify-content: flex-start;
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    margin: 0;
+
+    width: min(24rem, 500px);
+    padding: 2rem;
+    margin: 0.4rem;
+}
+
+.updatable-account-option-data p {
+    font-weight: lighter;
 }
