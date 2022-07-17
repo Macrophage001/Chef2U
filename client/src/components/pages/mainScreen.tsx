@@ -28,7 +28,9 @@ const MainScreen: React.FC<INavLinks> = ({ navLinks }) => {
 
     const [searchQuery, setSearchQuery] = useState('');
     const [searchResults, setSearchResults] = useState([]);
+
     const [searchBarCompleteClassName, setSearchBarCompleteClassName] = useState('');
+    const [mainScreenClassName, setMainScreenClassName] = useState('');
 
     const loggedInUser = useLoggedInUser(useLocation());
     useEffect(() => {
@@ -41,8 +43,10 @@ const MainScreen: React.FC<INavLinks> = ({ navLinks }) => {
     useEffect(() => {
         if (toggleFullChefPreview) {
             document.body.style.overflow = 'hidden';
+            setMainScreenClassName('blur-screen');
         } else {
             document.body.style.overflow = 'auto';
+            setMainScreenClassName('');
         }
     }, [toggleFullChefPreview]);
 
@@ -61,8 +65,13 @@ const MainScreen: React.FC<INavLinks> = ({ navLinks }) => {
     }
 
     const handleClickOnCard = (chef: IUser) => {
+        console.log("Toggle Full Chef Preview", toggleFullChefPreview);
+
         setSelectedChef(chef);
         setToggleFullChefPreview(!toggleFullChefPreview);
+
+        console.log("clicked on card", toggleFullChefPreview);
+
         const overallRating = chef.reviews.reduce((acc, curr) => {
             return acc + curr.rating;
         }, 0) / chef.reviews.length;
@@ -76,7 +85,7 @@ const MainScreen: React.FC<INavLinks> = ({ navLinks }) => {
                     <FullChefPreview chef={selectedChef} handleClickOnCard={handleClickOnCard} overallRating={overallRating} />
                 </OrderContext.Provider>
                 : null}
-            <div className='main-screen'>
+            <div className={`main-screen ${mainScreenClassName}`}>
                 <div className="main-screen-header" />
                 <div className="main-screen-body">
                     <NavBar user={user} setUser={setUser} />

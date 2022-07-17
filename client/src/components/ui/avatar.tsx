@@ -5,12 +5,12 @@ import { generateUUID } from '../../helper/util';
 
 import { useLoggedInUser } from '../../hooks/useLoggedInUser';
 
-import '../../styles/avatar.css';
 import { useGetAvatar } from '../../hooks/useGetAvatar';
 import { NavLink } from '../../types/navLink';
 import { IUser } from '../../interfaces/IUser';
 import { IUserState } from '../../interfaces/IUserState';
 
+import '../../styles/avatar.css';
 interface AvatarMenuProps extends IUserState {
     navLinks: NavLink[];
 }

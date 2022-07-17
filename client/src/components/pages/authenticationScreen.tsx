@@ -84,8 +84,8 @@ const AuthenticationScreen = () => {
     }
 
     const authTypeFormMap = {
-        'log-in': <LogInForm credentials={credentials} handleSubmit={authTypeMap[authType]} handleChange={handleChange} />,
-        'sign-up': <SignUpForm credentials={credentials} handleSubmit={authTypeMap[authType]} handleChange={handleChange} />
+        'log-in': <LogInForm credentials={credentials} handleOnSubmit={authTypeMap[authType]} handleOnChange={handleChange} />,
+        'sign-up': <SignUpForm credentials={credentials} handleOnSubmit={authTypeMap[authType]} handleOnChange={handleChange} />
     }
 
     return (

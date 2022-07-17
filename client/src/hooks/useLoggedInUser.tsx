@@ -19,6 +19,7 @@ export const useLoggedInUser = (location: CustomLocation) => {
                 setUser(sessionUser);
             } else {
                 let foundUser = {} as IUser;
+
                 if (!location.state) {
                     const response = await axios.get('/api/auth/login');
                     if (response.data) {
@@ -27,11 +28,12 @@ export const useLoggedInUser = (location: CustomLocation) => {
                 } else {
                     foundUser = location.state.user;
                 }
+
                 setUser(foundUser);
                 tryAddToStorage('session', 'user', foundUser);
             }
         })();
-    }, []);
+    }, [location.state]);
 
     return user;
 }

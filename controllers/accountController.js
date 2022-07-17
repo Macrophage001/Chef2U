@@ -7,6 +7,8 @@ const uploadToDB = (req, res) => {
         const img = fs.readFileSync(req.file.path);
         const encodedImage = Buffer.from(img, 'base64');
         console.log("Encoded Image", encodedImage);
+        console.log("Request Body: ", req.body);
+
         const encodedImageData = {
             data: encodedImage,
             contentType: req.file.mimetype,
@@ -16,8 +18,8 @@ const uploadToDB = (req, res) => {
             date: "avatar",
         };
 
-        const response = await User.findByIdAndUpdate(req.query.userId, { $set: { avatar: encodedImageData } }, { new: true });
-        res.send(response);
+        const updatedUser = await User.findByIdAndUpdate(req.query.userId, { avatar: encodedImageData }, { new: true });
+        res.send(updatedUser);
     })();
 }
 

@@ -1,13 +1,12 @@
 import React from "react";
+import { IFormEventsProps } from "../../interfaces/IFormEventsProps";
 import { ICredentials } from "../../interfaces/IUser";
 
-interface ILogInFormProps {
+interface ILogInFormProps extends IFormEventsProps {
     credentials: ICredentials
-    handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-    handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const LogInForm: React.FC<ILogInFormProps> = ({ credentials, handleSubmit, handleChange }) => {
+const LogInForm: React.FC<ILogInFormProps> = ({ credentials, handleOnSubmit, handleOnChange }) => {
     const {
         userName,
         password
@@ -15,9 +14,9 @@ const LogInForm: React.FC<ILogInFormProps> = ({ credentials, handleSubmit, handl
     console.log(userName, password);
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input type="text" name='userName' placeholder='Username...' onChange={handleChange} />
-            <input type="password" name='password' placeholder='Password...' onChange={handleChange} />
+        <form onSubmit={handleOnSubmit}>
+            <input type="text" name='userName' placeholder='Username...' onChange={handleOnChange} />
+            <input type="password" name='password' placeholder='Password...' onChange={handleOnChange} />
             <input type="submit" value="Submit" style={{ display: 'none' }} />
         </form>
     )

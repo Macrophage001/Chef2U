@@ -1,5 +1,7 @@
 import React from 'react'
 
+import '../../styles/searchBar.css';
+
 interface SearchBarProps {
     className?: string;
     searchQuery: string;

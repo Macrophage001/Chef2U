@@ -1,28 +1,28 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 import Avatar from '../ui/avatar';
 import AccountOptions from '../account/accountOptions';
-
-import '../../styles/accountScreen.css';
 import NavBar from '../navBar';
-import { tryCatch } from '../../helper/util';
 
-import axios from 'axios';
+import { tryCatch } from '../../helper/util';
 import { useLoggedInUser } from '../../hooks/useLoggedInUser';
 import { INavLinks } from '../../interfaces/INavLinks';
 import { IUser } from '../../interfaces/IUser';
 
+import { IFormEventsProps } from '../../interfaces/IFormEventsProps';
 
-interface IUploadAvatarProps {
-    handleOnSubmit: (e: React.FormEvent) => void;
-    handleOnChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+import '../../styles/accountScreen.css';
+
+interface UploadAvatarProps extends IFormEventsProps {
+    formRef: React.RefObject<HTMLFormElement>;
 }
 
-
-const UploadAvatar: React.FC<IUploadAvatarProps> = ({ handleOnSubmit, handleOnChange }) => {
+const UploadAvatar: React.FC<UploadAvatarProps> = ({ formRef, handleOnSubmit, handleOnChange }) => {
     return (
-        <form onSubmit={handleOnSubmit} method="post" encType="multipart/form-data">
+        <form ref={formRef} onSubmit={handleOnSubmit} method="post" encType="multipart/form-data">
+            <input type="text" name="testInfo" value="Testing 123..." onChange={handleOnChange} />
             <input type="file" name="profile-img" onChange={handleOnChange} />
             <button type="submit">Upload</button>
         </form>
@@ -31,8 +31,10 @@ const UploadAvatar: React.FC<IUploadAvatarProps> = ({ handleOnSubmit, handleOnCh
 
 
 const AccountScreen: React.FC<INavLinks> = ({ navLinks }) => {
+    const [formData, setFormData] = useState(new FormData());
     const [user, setUser] = useState({} as IUser);
-    const [profileImg, setProfileImg] = useState({} as File);
+
+    const formRef = useRef<HTMLFormElement>(null);
 
     const loggedInUser = useLoggedInUser(useLocation());
 
@@ -45,23 +47,19 @@ const AccountScreen: React.FC<INavLinks> = ({ navLinks }) => {
     const handleOnSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         tryCatch(async () => {
-            const formData = new FormData();
-            formData.append('profile-img', profileImg);
-            const response = await axios.post(`/api/account/avatar?userId=${user._id}`, formData);
+            await axios.post(`/api/account/avatar?userId=${user._id}`, formData);
         })();
     }
 
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
-            setProfileImg(e.target.files[0]);
-        }
+        setFormData(new FormData(formRef.current as HTMLFormElement));
     }
 
     return (
         <div className='account-screen'>
             <div className="account-screen-header" />
             <div className="account-screen-body">
-                <UploadAvatar handleOnChange={handleOnChange} handleOnSubmit={handleOnSubmit} />
+                <UploadAvatar formRef={formRef} handleOnChange={handleOnChange} handleOnSubmit={handleOnSubmit} />
                 <NavBar user={user} setUser={setUser} />
                 <Avatar navLinks={navLinks} />
                 <AccountOptions />

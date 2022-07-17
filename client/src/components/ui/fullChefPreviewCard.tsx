@@ -13,9 +13,19 @@ import { useGetAvatar } from '../../hooks/useGetAvatar';
 import { tryCatch } from '../../helper/util';
 import { IRecipeCartItem, IUser } from '../../interfaces/IUser';
 
+import '../../styles/chefPreviewCard.css';
+
 interface IRecipeCardProps {
     chef: IUser;
     recipe: IRecipeCartItem;
+}
+interface IChefRecipesProps {
+    chef: IUser;
+}
+interface IFullChefPreviewCardProps {
+    chef: IUser;
+    overallRating: number;
+    handleClickOnCard: (chef: IUser) => void;
 }
 
 const RecipeCard: React.FC<IRecipeCardProps> = ({ chef, recipe }) => {
@@ -28,6 +38,7 @@ const RecipeCard: React.FC<IRecipeCardProps> = ({ chef, recipe }) => {
                 user: { userId: user._id },
                 chef: { chefId: chef._id, firstName: chef.firstName, lastName: chef.lastName },
             });
+
             if (response.data) {
                 console.log(response.data);
                 setUser(response.data);
@@ -65,9 +76,6 @@ const RecipeCard: React.FC<IRecipeCardProps> = ({ chef, recipe }) => {
     );
 }
 
-interface IChefRecipesProps {
-    chef: IUser;
-}
 
 const ChefRecipes: React.FC<IChefRecipesProps> = ({ chef }) => {
     const { recipes } = chef;
@@ -80,11 +88,6 @@ const ChefRecipes: React.FC<IChefRecipesProps> = ({ chef }) => {
     );
 }
 
-interface IFullChefPreviewCardProps {
-    chef: IUser;
-    overallRating: number;
-    handleClickOnCard: (chef: IUser) => void;
-}
 
 const FullChefPreview: React.FC<IFullChefPreviewCardProps> = ({ chef, overallRating, handleClickOnCard }) => {
     const [avatar, setAvatar] = useState('');
@@ -106,6 +109,7 @@ const FullChefPreview: React.FC<IFullChefPreviewCardProps> = ({ chef, overallRat
         return stars;
     }
 
+    // I wanted to be able to close the preview card by clicking in the background, so I added this event listener.
     const handleClick = (e: React.MouseEvent) => {
         if (e.target === e.currentTarget) {
             handleClickOnCard(chef);

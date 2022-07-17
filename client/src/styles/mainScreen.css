@@ -1,6 +1,3 @@
-@import url('./avatar.css');
-@import url('./searchBar.css');
-@import url('./chefPreviewCard.css');
 @import url('./colors.css');
 
 .main-screen {
@@ -10,6 +7,20 @@
     align-items: center;
 
     position: relative;
+}
+
+.blur-screen {
+    animation: blur-screen-fade-in 150ms ease-in-out forwards;
+}
+
+@keyframes blur-screen-fade-in {
+    0% {
+        filter: blur(0px);
+    }
+
+    100% {
+        filter: blur(2px);
+    }
 }
 
 .main-screen-header {

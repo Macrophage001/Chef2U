@@ -12,7 +12,7 @@ export const useGetAvatar = (user: IUser, deps = []): string => {
 
     useEffect(() => {
         const sessionStorage = tryGetFromStorage('session', singleAvatarKey(user));
-        console.log("Session Storage", sessionStorage);
+        // console.log("Session Storage", sessionStorage);
         if (sessionStorage.data) {
             const decodedAvatar = JSON.parse(sessionStorage);
             if (decodedAvatar.contentType !== '' && decodedAvatar.data !== null) {

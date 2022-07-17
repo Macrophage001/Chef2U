@@ -1,27 +1,48 @@
 import React, { useState, useEffect, useContext, createContext, SetStateAction, SyntheticEvent } from 'react'
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import NavBar from '../navBar';
 import Avatar from '../ui/avatar';
 
-import '../../styles/mainScreen.css';
-import '../../styles/checkoutScreen.css';
-import '../../styles/button.css';
-
-import { tryCatch, ArrayExtension, currencyFormat } from '../../helper/util';
+import { tryCatch, currencyFormat } from '../../helper/util';
 import { useLoggedInUser } from '../../hooks/useLoggedInUser';
 import { INavLinks } from '../../interfaces/INavLinks';
-
 
 import Button from '../ui/button';
 import Card from '../ui/card';
 import { tryAddToStorage } from '../../helper/storageHelper';
 import { IRecipeCartItem, IUser } from '../../interfaces/IUser';
 
+import '../../styles/mainScreen.css';
+import '../../styles/checkoutScreen.css';
+import '../../styles/button.css';
+
+type SummaryType = {
+    cartTotal: number;
+    serviceFee: number;
+    cleanUpService: number;
+    totalBeforeTax: number;
+    tax: number;
+    totalWithTax: number;
+}
 interface IUserContext {
     user: IUser;
     cart: IRecipeCartItem[];
+}
+interface ISummaryItemsProps {
+    cart: IRecipeCartItem[];
+    summary: SummaryType;
+}
+interface ISummaryProps {
+    setUser: React.Dispatch<SetStateAction<IUser>>;
+    cart: IRecipeCartItem[];
+    setOrderPlaced: React.Dispatch<React.SetStateAction<boolean>>;
+    setShowOrderStatus: React.Dispatch<React.SetStateAction<boolean>>;
+}
+interface IOrderStatusProps {
+    orderPlaced: boolean;
+    setShowOrderStatus: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const UserContext = createContext({} as IUserContext);
@@ -83,19 +104,9 @@ const CheckoutDisplayOrders: React.FC<{ setUser: React.Dispatch<SetStateAction<I
     )
 }
 
-type SummaryType = {
-    cartTotal: number;
-    serviceFee: number;
-    cleanUpService: number;
-    totalBeforeTax: number;
-    tax: number;
-    totalWithTax: number;
-};
 
-interface ISummaryItemsProps {
-    cart: IRecipeCartItem[];
-    summary: SummaryType;
-}
+
+
 
 const OrderSummaryItems: React.FC<ISummaryItemsProps> = ({ cart, summary: { totalBeforeTax, cleanUpService, serviceFee } }) => {
     return (
@@ -120,12 +131,7 @@ const OrderSummaryItems: React.FC<ISummaryItemsProps> = ({ cart, summary: { tota
     );
 }
 
-interface ISummaryProps {
-    setUser: React.Dispatch<SetStateAction<IUser>>;
-    cart: IRecipeCartItem[];
-    setOrderPlaced: React.Dispatch<React.SetStateAction<boolean>>;
-    setShowOrderStatus: React.Dispatch<React.SetStateAction<boolean>>;
-}
+
 
 const CheckoutDisplaySummary: React.FC<ISummaryProps> = ({ setUser, cart, setOrderPlaced, setShowOrderStatus }) => {
     const { user } = useContext(UserContext);
@@ -203,39 +209,37 @@ const CheckoutDisplaySummary: React.FC<ISummaryProps> = ({ setUser, cart, setOrd
     )
 }
 
-interface IOrderStatusProps {
-    orderPlaced: boolean;
-    setShowOrderStatus: React.Dispatch<React.SetStateAction<boolean>>;
-}
+
 
 const OrderStatus: React.FC<IOrderStatusProps> = ({ orderPlaced, setShowOrderStatus }) => {
-    let messageCard = null;
+    const [message, setMessage] = useState({
+        title: '',
+        message: '',
+    });
+
+    const navigate = useNavigate();
 
     const handleClose = (e: SyntheticEvent) => {
         setShowOrderStatus(false);
+        navigate('/home');
     };
 
-    if (orderPlaced) {
-        messageCard = (
-            <div className='order-status-display' onClick={handleClose}>
-                <Card className='order-status-card'>
-                    <h3>Order Placed</h3>
-                    <p>Your order has been placed and is being processed. You will receive a confirmation email shortly.</p>
-                </Card>
-            </div>
-        )
-    } else {
-        messageCard = (
-            <div className='order-status-display' onClick={handleClose}>
-                <Card className='order-status-card'>
-                    <h3>Order Not Placed</h3>
-                    <p>Your order has not been placed. Please try again.</p>
-                </Card>
-            </div>
-        )
-    }
+    useEffect(() => {
+        if (orderPlaced) {
+            setMessage({ title: 'Order Placed', message: 'Your order has been placed and is being processed. You will receive a confirmation email shortly.' });
+        } else {
+            setMessage({ title: 'Order Not Placed', message: 'Your order was not placed. Please try again.' });
+        }
+    }, [orderPlaced]);
 
-    return messageCard;
+    return (
+        <div className='order-status-display' onClick={handleClose}>
+            <Card className='order-status-card'>
+                <h3>{message.title}</h3>
+                <p>{message.message}</p>
+            </Card>
+        </div>
+    )
 }
 
 const CheckoutScreen: React.FC<INavLinks> = ({ navLinks }) => {
