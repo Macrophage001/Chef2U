@@ -73,43 +73,6 @@ const UserSchema = new mongooose.Schema({
         type: Number,
         default: 0
     },
-    images: {
-        type: Array,
-        default: [
-            {
-                data: Buffer,
-                contentType: String,
-                name: String,
-                title: String,
-                date: String,
-                description: String,
-            },
-            {
-                data: Buffer,
-                contentType: String,
-                name: String,
-                title: String,
-                date: String,
-                description: String,
-            },
-            {
-                data: Buffer,
-                contentType: String,
-                name: String,
-                title: String,
-                date: String,
-                description: String,
-            },
-            {
-                data: Buffer,
-                contentType: String,
-                name: String,
-                title: String,
-                date: String,
-                description: String,
-            },
-        ]
-    },
     reviews: {
         type: Array,
         default: [

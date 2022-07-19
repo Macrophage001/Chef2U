@@ -27,3 +27,14 @@
 .updatable-account-option-data p {
     font-weight: lighter;
 }
+
+.error-msg {
+    color: red !important;
+    font-weight: bold !important;
+    font-size: smaller;
+    margin-top: 0.5rem;
+}
+
+.updatable-account-option-save-button {
+    margin-top: 1rem;
+}

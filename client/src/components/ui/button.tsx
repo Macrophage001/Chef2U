@@ -31,7 +31,7 @@ const Button: React.FC<IButtonProps> = ({ className, label = "Button", onClick, 
 
     return (
         <button className={`orange-button ${buttonClassName}`} onClick={handleClick} {...props}>
-            <p>{label}</p>
+            {props.children}
         </button>
     )
 }

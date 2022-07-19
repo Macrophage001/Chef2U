@@ -41,7 +41,7 @@ const RecipeCard: React.FC<IRecipeCardProps> = ({ chef, recipe }) => {
 
             if (response.data) {
                 console.log(response.data);
-                setUser(response.data);
+                setUser?.(response.data);
             }
         })();
     }
@@ -57,7 +57,9 @@ const RecipeCard: React.FC<IRecipeCardProps> = ({ chef, recipe }) => {
                         </div>
                         <div className="full-chef-preview-card-recipe-content-cta">
                             <p>Price: <span>{currencyFormat(recipe.price)}</span></p>
-                            <Button onClick={() => onOrderProduct(chef, recipe)} label="Order" />
+                            <Button onClick={() => onOrderProduct(chef, recipe)}>
+                                <p>Place Order</p>
+                            </Button>
                         </div>
                     </div>
                     <div className="full-chef-preview-card-recipe-content-right">

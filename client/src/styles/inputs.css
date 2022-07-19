@@ -5,6 +5,8 @@
     padding: 1rem;
     width: 14rem;
     margin-top: 1rem;
+
+    font-family: 'Cascadia Code', sans-serif;
 }
 
 .text-input::placeholder,

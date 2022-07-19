@@ -204,7 +204,9 @@ const CheckoutDisplaySummary: React.FC<ISummaryProps> = ({ setUser, cart, setOrd
                 <h3>{currencyFormat(summary.totalWithTax)}</h3>
             </div>
 
-            <Button disabled={cartLength === 0} label='Place Order' onClick={placeOrder} />
+            <Button disabled={cartLength === 0} onClick={placeOrder}>
+                <p>Place Order</p>
+            </Button>
         </div>
     )
 }

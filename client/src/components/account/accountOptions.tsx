@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
 import Card from '../ui/card';
+
 
 const AccountOptions = () => {
     const navigate = useNavigate();
@@ -30,7 +31,7 @@ const AccountOptions = () => {
         <div className='account-options'>
             {Options.map((option, index) => {
                 return (
-                    <Card className='account-option' onClick={() => navigate(option.link)}>
+                    <Card className='account-option' onClick={() => navigate(Options[index].link)}>
                         <img className='option-icon' src={option.icon} alt="orders_image" />
                         <h2>{option.title}</h2>
                         <p>{option.description}</p>

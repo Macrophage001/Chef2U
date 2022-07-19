@@ -1,0 +1,30 @@
+@import url('colors.css');
+
+.updatable-account-selected-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: min(30%, 750px);
+    height: 100%;
+    padding: 10px;
+}
+
+.updatable-account-selected-option p {
+    font-weight: lighter;
+    color: #646464;
+}
+
+.updatable-account-selected-option span {
+    font-weight: bold;
+    color: var(--accent-color);
+}
+
+.updatable-account-option-input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 0.75rem;
+}

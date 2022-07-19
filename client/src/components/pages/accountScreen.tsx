@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import Avatar from '../ui/avatar';
 import AccountOptions from '../account/accountOptions';
+import AccountUpdatableOptionScreen from './accountUpdatableOptionScreen';
 import NavBar from '../ui/navBar';
 
 import { tryCatch } from '../../helper/util';
@@ -13,6 +14,7 @@ import { IUser } from '../../interfaces/IUser';
 
 import { IFormEventsProps } from '../../interfaces/IFormEventsProps';
 
+import '../../styles/mainScreen.css';
 import '../../styles/accountScreen.css';
 
 interface UploadAvatarProps extends IFormEventsProps {

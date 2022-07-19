@@ -7,6 +7,7 @@
     align-items: center;
 
     position: relative;
+    height: 100%;
 }
 
 .account-screen-header {
@@ -23,7 +24,6 @@
 
 .account-screen-body {
     width: 100%;
-    height: 100%;
 
     display: flex;
     flex-direction: column;
@@ -36,12 +36,16 @@
 .account-options {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-gap: 6rem 0;
+    grid-gap: 6rem 2rem;
     place-items: center;
 
-    position: relative;
-    top: 8rem;
+    position: absolute;
+    top: 14rem;
+    left: 50%;
+    transform: translateX(-50%);
+
     width: 50%;
+    margin: auto;
 }
 
 .account-option {
@@ -52,11 +56,12 @@
     justify-content: center;
     align-items: center;
 
-    width: 18rem;
+    width: min(18rem, 100%);
     height: 12rem;
     position: relative;
 
     padding: 0.5rem;
+    margin: 0 0.5rem
 }
 
 .account-option:hover {
