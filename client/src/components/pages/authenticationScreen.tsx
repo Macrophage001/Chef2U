@@ -104,7 +104,6 @@ const AuthenticationScreen = () => {
             <div className='log-in-screen-body'>
                 <div className='log-in-screen-body-authentication'>
                     {authenticationState === AuthenticationState.LogIn ? <h1>Log In</h1> : <h1>Sign Up</h1>}
-                    {/* {authComponent} */}
                     {
                         authenticationState === AuthenticationState.LogIn
                             ? <LogInForm credentials={credentials} handleOnSubmit={authTypeMap[authenticationState]} handleOnChange={handleChange} />
