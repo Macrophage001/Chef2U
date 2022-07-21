@@ -47,8 +47,8 @@ const AuthenticationScreen = () => {
 
     const navigate = useNavigate();
     const storeAuthToken = (response: AxiosResponse) => {
-        console.log(response.data);
-        tryAddToStorage('session', 'user', { ...response.data, avatar: { data: null, contentType: '' } });
+        const sanitizedUser = { ...response.data, avatar: { data: '', contentType: '' } };
+        tryAddToStorage('session', 'user', sanitizedUser);
         if (response.data.avatar.data) {
             const decodedAvatar = { ...response.data.avatar, data: Buffer.from(response.data.avatar.data, 'base64').toString('base64') };
             tryAddToStorage('session', 'user.avatar', { ...response.data, avatar: decodedAvatar });
@@ -80,10 +80,10 @@ const AuthenticationScreen = () => {
      * @param e The event that triggered the function
      */
     const handleChange = (e: ICustomSyntheticEvent) => {
-        const { name, value } = e.target;
         const newCredentials = { ...credentials };
+        const { name, value } = e.target;
+
         newCredentials[name as keyof ICredentials] = value;
-        console.log(newCredentials);
         setCredentials(newCredentials);
     }
 
@@ -92,11 +92,11 @@ const AuthenticationScreen = () => {
         [AuthenticationState.SignUp]: <SignUpForm credentials={credentials} handleOnSubmit={authTypeMap[authenticationState]} handleOnChange={handleChange} />
     }
 
-    const [authComponent, setAuthComponent] = useState(<LogInForm credentials={credentials} handleOnSubmit={authTypeMap[authenticationState]} handleOnChange={handleChange} />);
+    // const [authComponent, setAuthComponent] = useState(<LogInForm credentials={credentials} handleOnSubmit={authTypeMap[authenticationState]} handleOnChange={handleChange} />);
 
-    useEffect(() => {
-        setAuthComponent(authTypeFormMap[authenticationState]);
-    }, [authenticationState]);
+    // useEffect(() => {
+    //     setAuthComponent(authTypeFormMap[authenticationState]);
+    // }, [authenticationState]);
 
     return (
         <div className="log-in-screen">
