@@ -1,7 +1,8 @@
 import React from 'react'
 import IntroScreen from './components/pages/introScreen';
-import './styles/App.css';
 import { INavLinks } from './interfaces/INavLinks';
+
+import './styles/App.css';
 
 const App: React.FC<INavLinks> = ({ navLinks }) => {
   return (

@@ -1,3 +1,5 @@
+@import url('colors.css');
+
 .nav-links {
     width: 100%;
 }
@@ -27,12 +29,16 @@
     display: block;
     height: 2px;
     position: relative;
-    background-color: #FF6B00;
+    background-color: var(--accent-color);
 
     transform: scaleX(0);
 }
 
-.nav-links ul li:hover *::after {
+.nav-links ul li:hover a::after {
     transition: 300ms ease-in-out;
+    transform: scaleX(100%);
+}
+
+.nav-links ul li .active::after {
     transform: scaleX(100%);
 }

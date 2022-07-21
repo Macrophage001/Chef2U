@@ -14,14 +14,15 @@ const passwordValidator = {
 
 const loginUser = (req, res) => {
     tryCatch(async () => {
+        console.log("Log in body: ", req.body);
         const user = await User.findOne({ userName: req.body.userName });
         if (!user) {
-            res.status(401).send('Invalid email or password');
+            res.status(401).send('Invalid Username or Password {0}');
             return;
         } else {
             const isPasswordCorrect = await passwordValidator.bcryptValidator(user.password)(req.body.password);
             if (!isPasswordCorrect) {
-                res.status(401).send('Invalid email or password');
+                res.status(401).send('Invalid Username or Password {1}');
                 return;
             } else {
                 req.session.user = user;

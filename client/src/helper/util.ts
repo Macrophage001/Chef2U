@@ -14,7 +14,7 @@ export const tryCatch = (fn: TryCatchCallback, fallback = (err: unknown) => cons
 }
 
 export const generateUUID = (item: any): string => {
-    return `${item.toString()}-${Date.now}`
+    return `${item.toString()}-${Date.now()}`;
 }
 
 export const encryptPassword = (password: string): any => {

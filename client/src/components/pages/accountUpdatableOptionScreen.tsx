@@ -5,22 +5,22 @@ import { IUser } from '../../interfaces/IUser';
 import { IUserState } from '../../interfaces/IUserState';
 import { tryCatch } from '../../helper/util';
 import { ScreenState } from '../../enum/screenState';
-import { isValidEmail, isValidPassword } from '../../helper/validationHelper';
+import { Validator } from '../../helper/validationHelper';
 
 import Card from '../ui/card';
 import Button from '../ui/button';
 
-import '../../styles/mainScreen.css';
-import '../../styles/inputs.css';
-import '../../styles/updatableOptionScreen.css';
 import { AccountOption } from '../../enum/accountOptions';
 import { tryAddToStorage } from '../../helper/storageHelper';
 
+import '../../styles/mainScreen.css';
+import '../../styles/inputs.css';
+import '../../styles/updatableOptionScreen.css';
 interface IAccountUpdatableOptionScreenProps extends IUserState {
     optionName: string;
     optionKey: string;
-    setScreenState: React.Dispatch<React.SetStateAction<ScreenState>>;
     accountOption: AccountOption;
+    setScreenState: React.Dispatch<React.SetStateAction<ScreenState>>;
 }
 
 enum ChangeState {
@@ -30,7 +30,7 @@ enum ChangeState {
     ErrorDuringChange,
 }
 
-const AccountUpdatableOptionScreen: React.FC<IAccountUpdatableOptionScreenProps> = ({ accountOption, user, setUser, optionName, optionKey, setScreenState }) => {
+const AccountUpdatableOptionScreen: React.FC<IAccountUpdatableOptionScreenProps> = ({ accountOption, user, optionName, setUser, setScreenState }) => {
     const [userValue, setUserValue] = useState(user[accountOption as keyof IUser]);
     const [changeState, setChangeState] = useState(ChangeState.Unchanged);
     const [errorMessages, setErrorMessages] = useState([] as string[]);
@@ -52,7 +52,7 @@ const AccountUpdatableOptionScreen: React.FC<IAccountUpdatableOptionScreenProps>
     const handleAccountOption = () => {
         switch (accountOption) {
             case AccountOption.Password:
-                const [isValid, errorMsgs] = isValidPassword(userValue as string);
+                const [isValid, errorMsgs] = Validator.validatePassword(userValue as string);
                 console.log(isValid, errorMsgs);
                 if (isValid) {
                     console.log('Valid');

@@ -53,16 +53,13 @@ const CheckoutDisplayOrders: React.FC<{ setUser: React.Dispatch<SetStateAction<I
     const updateItemCount = (item: IRecipeCartItem, add: number) => {
         tryCatch(async () => {
             let newCount = item.count + add;
-            // let newCart = new ArrayExtension(...cart);
             let newCart = [...cart];
             if (newCount < 1) {
                 newCount = 0;
                 const index = newCart.indexOf(item);
-                // newCart = newCart.remove(index);
                 newCart.splice(index, 1);
             } else {
                 newCart = [...cart];
-                // newCart = new ArrayExtension(...cart);
                 newCart.forEach(i => {
                     if (i.name === item.name && i.chefId === item.chefId) {
                         i.count = newCount;
@@ -89,8 +86,8 @@ const CheckoutDisplayOrders: React.FC<{ setUser: React.Dispatch<SetStateAction<I
                             <div className="price-details">
                                 <p>Qty: <span>{item.count}</span></p>
                                 <div>
-                                    <Button label='+' onClick={() => updateItemCount(item, 1)} />
-                                    <Button label='-' onClick={() => updateItemCount(item, -1)} />
+                                    <Button onClick={() => updateItemCount(item, 1)}><p>+</p></Button>
+                                    <Button onClick={() => updateItemCount(item, -1)}><p>-</p></Button>
                                 </div>
                                 <p>Price: <span>{currencyFormat(item.price * item.count)}</span></p>
                                 <p>ETA: <span>3:30PM</span></p>
