@@ -8,7 +8,8 @@ The web app would allow users to search for whatever food they're currently crav
 
 ## Showcase
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/TGGAE_lg778" title="Chef 2 U - Show Case" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<video src="https://youtu.be/TGGAE_lg778" controls="controls" style="max-width: 730px;">
+</video>
 
 ## Wireframing
 
