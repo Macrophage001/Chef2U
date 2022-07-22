@@ -7,9 +7,7 @@ He wanted to make an app that allowed people to hire different chefs directly.
 The web app would allow users to search for whatever food they're currently craving and what chefs in their nearby area can make them.
 
 ## Showcase
-
-<video src="https://youtu.be/TGGAE_lg778" controls="controls" style="max-width: 730px;">
-</video>
+Chef2U - Showcase: https://youtu.be/TGGAE_lg778
 
 ## Wireframing
 
