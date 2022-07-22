@@ -46,6 +46,11 @@ const AuthenticationScreen = () => {
     } as ICredentials);
 
     const navigate = useNavigate();
+
+    /**
+     * @description - Will store the authentication token in the future. For now, stores the logged in user in session storage.
+     * @param response - The response from the server
+     */
     const storeAuthToken = (response: AxiosResponse) => {
         const sanitizedUser = { ...response.data, avatar: { data: '', contentType: '' } };
         tryAddToStorage('session', 'user', sanitizedUser);
@@ -54,7 +59,6 @@ const AuthenticationScreen = () => {
             tryAddToStorage('session', 'user.avatar', { ...response.data, avatar: decodedAvatar });
         }
     }
-
     const authTypeMap = {
         [AuthenticationState.LogIn]: () => {
             tryCatch(async () => {

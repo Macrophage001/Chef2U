@@ -6,6 +6,10 @@ The idea behind this web app was first thought of by my brother.
 He wanted to make an app that allowed people to hire different chefs directly. 
 The web app would allow users to search for whatever food they're currently craving and what chefs in their nearby area can make them.
 
+## Showcase
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/TGGAE_lg778" title="Chef 2 U - Show Case" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ## Wireframing
 
 <!-- Intro Screen -->

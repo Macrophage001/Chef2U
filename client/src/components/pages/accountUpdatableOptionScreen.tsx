@@ -16,6 +16,7 @@ import { tryAddToStorage } from '../../helper/storageHelper';
 import '../../styles/mainScreen.css';
 import '../../styles/inputs.css';
 import '../../styles/updatableOptionScreen.css';
+import { passwordRules } from '../../helper/rules/passwordRules';
 interface IAccountUpdatableOptionScreenProps extends IUserState {
     optionName: string;
     optionKey: string;
@@ -50,9 +51,10 @@ const AccountUpdatableOptionScreen: React.FC<IAccountUpdatableOptionScreenProps>
     }
 
     const handleAccountOption = () => {
+        const { validatePassword, validateEmail } = Validator;
         switch (accountOption) {
             case AccountOption.Password:
-                const [isValid, errorMsgs] = Validator.validatePassword(userValue as string);
+                const [isValid, errorMsgs] = validatePassword(userValue as string, passwordRules);
                 console.log(isValid, errorMsgs);
                 if (isValid) {
                     console.log('Valid');

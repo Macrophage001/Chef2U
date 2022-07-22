@@ -1,28 +1,5 @@
 const mongooose = require('mongoose');
 
-// const RecipesSchema = new mongooose.Schema({
-//     name: String,
-//     ingredients: [String],
-//     steps: [String],
-//     image: String,
-//     category: String,
-// });
-
-// const CartItemSchema = new mongooose.Schema({
-//     item: {
-//         name: String,
-//         image: String,
-//         price: Number,
-//     },
-//     quantity: Number,
-// });
-
-// const ReviewSchema = new mongooose.Schema({
-//     rating: { type: Number, min: 1, max: 5, required: true, default: 5 },
-//     comment: { type: String, required: true, default: 'No comment' },
-//     user: String,
-// });
-
 const UserSchema = new mongooose.Schema({
     userName: {
         type: String,
