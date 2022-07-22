@@ -8,7 +8,7 @@ The web app would allow users to search for whatever food they're currently crav
 
 ## Showcase
 Chef2U - Showcase: 
-[![Video Showcase](http://img.youtube.com/vi/https://youtu.be/TGGAE_lg778/0.jpg)](https://youtu.be/TGGAE_lg778 "Chef2U - Showcase")
+[![Video Showcase](http://img.youtube.com/vi/TGGAE_lg778/0.jpg)](https://youtu.be/TGGAE_lg778 "Chef2U - Showcase")
 
 ## Wireframing
 
